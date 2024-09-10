@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nedtelling til Helg</title>
-
-    <!-- ROG Fonts (Hvis du har filen lokalt, legg den til her) -->
+    <title>Nedtelling til Helg med Prosent</title>
+    
+    <!-- ROG Fonts -->
     <style>
         @font-face {
             font-family: 'ROG Fonts';
@@ -21,13 +21,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            text-align: center;
             flex-direction: column;
+            text-align: center;
         }
 
         .countdown {
             display: flex;
-            font-size: 6em; /* Stor skrift for tall */
+            font-size: 6em;
+            margin-bottom: 30px;
         }
 
         .countdown div {
@@ -35,7 +36,7 @@
         }
 
         .label {
-            font-size: 0.25em; /* Mindre skrift for beskrivelse */
+            font-size: 0.25em;
             text-transform: lowercase;
         }
 
@@ -43,42 +44,92 @@
             font-size: 1.5em;
             margin-top: 20px;
         }
+
+        /* Hjulet */
+        .progress-circle {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin-top: 50px; /* Avstand mellom nedtellingen og hjulet */
+        }
+
+        .progress-circle svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-circle circle {
+            fill: none;
+            stroke-width: 10;
+        }
+
+        .progress-background {
+            stroke: rgb(255, 255, 255); /* Hvit sirkel i bakgrunnen */
+        }
+
+        .progress-bar {
+            stroke: red; /* Fyll farge */
+            stroke-dasharray: 628; /* Lengden på sirkelen */
+            stroke-dashoffset: 628; /* Startposisjon - 100% tom */
+            transition: stroke-dashoffset 1s linear; /* Smooth overgang */
+        }
+
+        .progress-circle .percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            color: red;
+        }
     </style>
 </head>
 <body>
     <div class="countdown">
         <div>
             <span id="days"></span>
-            <div class="label">dager</div>
+            <div class="label">days</div>
         </div>
         <div>:</div>
         <div>
             <span id="hours"></span>
-            <div class="label">timer</div>
+            <div class="label">hours</div>
         </div>
         <div>:</div>
         <div>
             <span id="minutes"></span>
-            <div class="label">minutter</div>
+            <div class="label">minutes</div>
         </div>
         <div>:</div>
         <div>
             <span id="seconds"></span>
-            <div class="label">sekunder</div>
+            <div class="label">seconds</div>
         </div>
     </div>
-    <div class="small-text">Til Helg</div>
+
+    <!-- Hjulet -->
+    <div class="progress-circle">
+        <svg width="200" height="200">
+            <!-- Bakgrunnsirkelen -->
+            <circle class="progress-background" cx="100" cy="100" r="100" />
+            <!-- Fyllesirkelen -->
+            <circle class="progress-bar" cx="100" cy="100" r="100" />
+        </svg>
+        <div class="percentage" id="percentage">0%</div>
+    </div>
+
+    <div class="small-text">til helg</div>
 
     <script>
+        // Definer verdier for tid til helg
         function updateCountdown() {
-            // Få dagens dato og tid
+            // Nåværende tidspunkt
             const now = new Date();
 
-            // Finner neste fredag 13:40
+            // Sett tidspunkt for fredag kl 13:40
             let targetDate = new Date();
             targetDate.setHours(13, 40, 0, 0); // Fredag kl. 13:40
 
-            // Hvis dagens dato er etter fredag kl. 13:40, flytt til neste uke
+            // Hvis vi er etter fredag kl. 13:40, gå til neste fredag
             const currentDay = now.getDay();
             if (currentDay > 5 || (currentDay === 5 && now > targetDate)) {
                 targetDate.setDate(targetDate.getDate() + (12 - currentDay)); // Neste fredag
@@ -86,24 +137,49 @@
                 targetDate.setDate(now.getDate() + (5 - currentDay)); // Denne ukens fredag
             }
 
-            // Kalkuler forskjellen i millisekunder
+            // Kalkuler hvor mye tid som gjenstår
             const difference = targetDate - now;
 
-            // Konverter forskjellen til dager, timer, minutter og sekunder
+            // Konverter til dager, timer, minutter, sekunder
             const days = Math.floor(difference / (1000 * 60 * 60 * 24));
             const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-            // Oppdater HTML
+            // Oppdater nedtellingstekst
             document.getElementById("days").innerHTML = String(days).padStart(2, '0');
             document.getElementById("hours").innerHTML = String(hours).padStart(2, '0');
             document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
             document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
+
+            // Tid i millisekunder fra mandag 00:00 til fredag 13:40
+            const weekTotalTime = (5 * 24 * 60 * 60 * 1000) + (13 * 60 * 60 * 1000) + (40 * 60 * 1000);
+            const elapsed = weekTotalTime - difference;
+            const percentage = Math.min((elapsed / weekTotalTime) * 100, 100);
+
+            // Oppdater hjulet
+            const circle = document.querySelector('.progress-bar');
+            const radius = circle.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (percentage / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+
+            // Oppdater prosentandel i midten
+            document.getElementById("percentage").innerHTML = Math.floor(percentage) + "%";
         }
 
-        // Oppdater nedtelling hvert sekund
+        // Oppdater nedtelling og hjulet hvert sekund
         setInterval(updateCountdown, 1000);
     </script>
+</body>
+<body>
+    <h1>Velg dag</h1>
+    <div class="button-container">
+        <a href="mandag.html">Mandag</a>
+        <a href="tirsdag.html">Tirsdag</a>
+        <a href="onsdag.html">Onsdag</a>
+        <a href="torsdag.html">Torsdag</a>
+        <a href="fredag.html">Fredag</a>
+    </div>
 </body>
 </html>
