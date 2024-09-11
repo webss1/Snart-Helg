@@ -3,49 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skole Timer</title>
+    <title>Når er skolen ferdig?</title>
     <style>
-        @font-face {
-            font-family: 'ROG Fonts';
-            src: url('rog-fonts.ttf') format('truetype');
-        }
-
         body {
             background-color: black;
-            color: white;
-            font-family: 'ROG Fonts', sans-serif;
-            margin: 0;
-            height: 100vh;
+            color: red;
+            font-family: 'ROG Fonts';
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
             text-align: center;
         }
-
-        .countdown {
-            display: flex;
-            font-size: 5em;
-            margin-bottom: 50px;
+        .timer {
+            font-size: 10rem; /* Gjør skriften mye større */
+            letter-spacing: 10px;
         }
-
-        .countdown div {
-            margin: 0 10px;
-        }
-
         .label {
-            font-size: 0.2em;
-            text-transform: lowercase;
+            font-size: 2rem; /* Gjør etikettene større også */
+            margin-top: -10px;
+            letter-spacing: 6px;
         }
-
-        .message {
-            font-size: 2em;
-            color: red;
-            display: none;
+        #message {
+            font-size: 2.5rem;
             margin-top: 20px;
         }
-
-        /* Knapp for å gå tilbake til hovedsiden */
         .back-button {
             position: absolute;
             top: 20px;
@@ -65,34 +50,35 @@
     </style>
 </head>
 <body>
+    <a href="index.html" class="back-button">Tilbake til Hovedsiden</a>
+
     <div class="container">
-        <h1>Skole Timer</h1>
-        <div class="timer" id="timer"></div>
+        <div class="timer" id="timer">
+            <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+        </div>
+        <div class="label">
+            <span>timer</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>minutter</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>sekunder</span>
+        </div>
         <div id="message"></div>
     </div>
 
     <script>
         function startTimer() {
             const now = new Date();
-            const start = new Date();
-            start.setHours(18, 40, 0); // 9:10 om morgenen
-
             const end = new Date();
-            end.setHours(18, 50, 0); // 15:20 på ettermiddagen
+            end.setHours(15,20, 0); // Sluttid kl. 15:20
 
-            // Hvis klokken er etter 15:20, sett starttidspunktet til neste dag
-            if (now > end) {
-                start.setDate(start.getDate() + 1);
-            }
-
+            // Oppdaterer timeren hver sekund
             function updateTimer() {
                 const currentTime = new Date();
                 const remainingTime = end - currentTime;
 
                 // Hvis nedtellingen er ferdig
                 if (remainingTime <= 0) {
-                    document.getElementById("timer").style.display = "none";
-                    document.getElementById("message").innerText = "Skolen er ferdig!";
+                    document.getElementById("hours").innerText = "00";
+                    document.getElementById("minutes").innerText = "00";
+                    document.getElementById("seconds").innerText = "00";
+                    document.getElementById("message").innerText = "Skolen er ferdig🥳🥳🥳";
                     clearInterval(interval);
                     return;
                 }
@@ -102,15 +88,13 @@
                 const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
-                // Oppdater timeren på skjermen
-                document.getElementById("timer").innerHTML = 
-                    `Tid igjen: ${hours}t ${minutes}m ${seconds}s`;
+                // Oppdaterer HTML med gjenværende tid
+                document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+                document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+                document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
             }
 
-            // Oppdater hver sekund
             const interval = setInterval(updateTimer, 1000);
-
-            // Kjør funksjonen umiddelbart for å vise timeren med en gang
             updateTimer();
         }
 
