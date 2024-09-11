@@ -23,6 +23,7 @@
             align-items: center;
             flex-direction: column;
             text-align: center;
+            position: relative; /* For å posisjonere knapp relativt til body */
         }
 
         .countdown {
@@ -96,6 +97,24 @@
             font-family: 'ROG Fonts', sans-serif;
         }
 
+        /* Knapp for Credits */
+        .credits-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+        }
+
+        .credits-button:hover {
+            background-color: darkred;
+        }
+
         /* Stiler for dagknapper */
         .button-container {
             display: flex;
@@ -120,6 +139,8 @@
     </style>
 </head>
 <body>
+    <button class="credits-button" onclick="window.location.href='credits.html'">Credits</button>
+
     <div class="countdown">
         <div>
             <span id="days"></span>
