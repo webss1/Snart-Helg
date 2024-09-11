@@ -3,51 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nedtelling - Mandag</title>
-    
-    <!-- ROG Fonts -->
+    <title>Når er skolen ferdig?</title>
     <style>
-        @font-face {
-            font-family: 'ROG Fonts';
-            src: url('rog-fonts.ttf') format('truetype');
-        }
-
         body {
             background-color: black;
-            color: white;
-            font-family: 'ROG Fonts', sans-serif;
-            margin: 0;
-            height: 100vh;
+            color: red;
+            font-family: 'ROG Fonts';
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
             text-align: center;
         }
-
-        .countdown {
-            display: flex;
-            font-size: 5em;
-            margin-bottom: 50px;
+        .timer {
+            font-size: 10rem; /* Gjør skriften mye større */
+            letter-spacing: 10px;
         }
-
-        .countdown div {
-            margin: 0 10px;
-        }
-
         .label {
-            font-size: 0.2em;
-            text-transform: lowercase;
+            font-size: 2rem; /* Gjør etikettene større også */
+            margin-top: -10px;
+            letter-spacing: 6px;
         }
-
-        .message {
-            font-size: 2em;
-            color: red;
-            display: none;
+        #message {
+            font-size: 2.5rem;
             margin-top: 20px;
         }
-
-        /* Knapp for å gå tilbake til hovedsiden */
         .back-button {
             position: absolute;
             top: 20px;
@@ -67,86 +50,58 @@
     </style>
 </head>
 <body>
-    <!-- Knapp for å gå tilbake til hovedsiden -->
     <a href="index.html" class="back-button">Tilbake til Hovedsiden</a>
 
-    <h1>Mandag</h1>
-    
-    <!-- Nedtelling til skoledagen -->
-    <div class="school-countdown">
-        <div class="countdown">
-            <div>
-                <span id="school-hours"></span>
-                <div class="label">hours</div>
-            </div>
-            <div>:</div>
-            <div>
-                <span id="school-minutes"></span>
-                <div class="label">minutes</div>
-            </div>
-            <div>:</div>
-            <div>
-                <span id="school-seconds"></span>
-                <div class="label">seconds</div>
-            </div>
+    <div class="container">
+        <div class="timer" id="timer">
+            <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
         </div>
-        <div id="school-message">til skoledagen er over</div>
-        <div class="message" id="end-message">Skole dagen er over🥳</div>
+        <div class="label">
+            <span>timer</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>minutter</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>sekunder</span>
+        </div>
+        <div id="message"></div>
     </div>
 
     <script>
-        function updateCountdown() {
-            // Nåværende tidspunkt
+        function startTimer() {
             const now = new Date();
+            const end = new Date();
+            end.setHours(15,20, 0); // Sluttid kl. 15:20
 
-            // Hent ukedagen (0 = søndag, 1 = mandag, ..., 5 = fredag, 6 = lørdag)
-            const dayOfWeek = now.getDay();
-            
-            // Sett tidspunkt for slutten av skoledagen (Mandag: 15:20)
-            const schoolEndTime = new Date();
-            schoolEndTime.setHours(15, 20, 0, 0); // Mandag kl. 15:20
+            // Oppdaterer timeren hver sekund
+            function updateTimer() {
+                const currentTime = new Date();
+                const remainingTime = end - currentTime;
 
-            // Hvis det er fredag etter skoleslutt, lørdag eller søndag, vis "Skole dagen er over🥳"
-            if (dayOfWeek === 6 || dayOfWeek === 0 || (dayOfWeek === 5 && now > schoolEndTime)) {
-                document.querySelector('.school-countdown').style.display = 'none';
-                document.getElementById('end-message').style.display = 'block';
+                // Hvis nedtellingen er ferdig
+                if (remainingTime <= 0) {
+                    document.getElementById("hours").innerText = "00";
+                    document.getElementById("minutes").innerText = "00";
+                    document.getElementById("seconds").innerText = "00";
+                    document.getElementById("message").innerText = "Skolen er ferdig🥳🥳🥳";
+                    clearInterval(interval);
+                    return;
+                }
+
+                // Kalkuler timer, minutter og sekunder
+                const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+                // Oppdaterer HTML med gjenværende tid
+                document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+                document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+                document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
             }
-            // Hvis det er mandag før skolestart, start nedtellingen
-            else if (dayOfWeek === 1 && now < schoolEndTime) {
-                const schoolDifference = schoolEndTime - now;
 
-                // Beregn timer, minutter og sekunder til skoledagens slutt
-                const schoolHours = Math.floor((schoolDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const schoolMinutes = Math.floor((schoolDifference % (1000 * 60 * 60)) / (1000 * 60));
-                const schoolSeconds = Math.floor((schoolDifference % (1000 * 60)) / 1000);
-
-                // Oppdater nedtelling til skoledagens slutt
-                document.getElementById("school-hours").innerHTML = String(schoolHours).padStart(2, '0');
-                document.getElementById("school-minutes").innerHTML = String(schoolMinutes).padStart(2, '0');
-                document.getElementById("school-seconds").innerHTML = String(schoolSeconds).padStart(2, '0');
-            } 
-            // Hvis vi er i løpet av en vanlig skoledag, vis nedtellingen
-            else if (now < schoolEndTime && dayOfWeek === 1) {
-                const schoolDifference = schoolEndTime - now;
-
-                const schoolHours = Math.floor((schoolDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const schoolMinutes = Math.floor((schoolDifference % (1000 * 60 * 60)) / (1000 * 60));
-                const schoolSeconds = Math.floor((schoolDifference % (1000 * 60)) / 1000);
-
-                // Oppdater nedtelling til skoledagens slutt
-                document.getElementById("school-hours").innerHTML = String(schoolHours).padStart(2, '0');
-                document.getElementById("school-minutes").innerHTML = String(schoolMinutes).padStart(2, '0');
-                document.getElementById("school-seconds").innerHTML = String(schoolSeconds).padStart(2, '0');
-            }
-            // Når skoledagen er over, vis "Skole dagen er over🥳"
-            else {
-                document.querySelector('.school-countdown').style.display = 'none';
-                document.getElementById('end-message').style.display = 'block';
-            }
+            const interval = setInterval(updateTimer, 1000);
+            updateTimer();
         }
 
-        // Oppdater nedtelling hvert sekund
-        setInterval(updateCountdown, 1000);
+        // Start timeren når siden lastes
+        window.onload = startTimer;
     </script>
+</body>
+</html>
 </body>
 </html>
