@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nedtelling - Tirsdag</title>
-    
+
     <!-- ROG Fonts -->
     <style>
         @font-face {
@@ -106,41 +106,35 @@
             const schoolEndTime = new Date();
             schoolEndTime.setHours(13, 10, 0, 0); // Tirsdag kl. 13:10
 
-            // Hvis det er fredag etter skoleslutt, lørdag eller søndag, vis "Skole dagen er over🥳"
-            if (dayOfWeek === 6 || dayOfWeek === 0 || (dayOfWeek === 5 && now > schoolEndTime)) {
-                document.querySelector('.school-countdown').style.display = 'none';
-                document.getElementById('end-message').style.display = 'block';
-            }
-            // Hvis det er tirsdag etter skoledagens slutt, vis meldingen
-            else if (dayOfWeek === 2 && now > schoolEndTime) {
-                document.querySelector('.school-countdown').style.display = 'none';
-                document.getElementById('end-message').style.display = 'block';
-            }
-            // Hvis det er tirsdag og før skoledagen er over, start nedtellingen
-            else if (dayOfWeek === 2 && now < schoolEndTime) {
-                const schoolDifference = schoolEndTime - now;
+            // Sjekk om nåværende tidspunkt er tirsdag (dayOfWeek === 2)
+            if (dayOfWeek === 2) {
+                // Hvis nåværende tid er etter kl. 13:10, vis meldingen
+                if (now > schoolEndTime) {
+                    document.querySelector('.school-countdown').style.display = 'none';
+                    document.getElementById('end-message').style.display = 'block';
+                } else {
+                    // Beregn differansen mellom nåværende tid og skoledagens slutt
+                    const schoolDifference = schoolEndTime - now;
 
-                // Beregn timer, minutter og sekunder til skoledagens slutt
-                const schoolHours = Math.floor((schoolDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const schoolMinutes = Math.floor((schoolDifference % (1000 * 60 * 60)) / (1000 * 60));
-                const schoolSeconds = Math.floor((schoolDifference % (1000 * 60)) / 1000);
+                    // Beregn timer, minutter og sekunder til skoledagens slutt
+                    const schoolHours = Math.floor((schoolDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const schoolMinutes = Math.floor((schoolDifference % (1000 * 60 * 60)) / (1000 * 60));
+                    const schoolSeconds = Math.floor((schoolDifference % (1000 * 60)) / 1000);
 
-                // Oppdater nedtelling til skoledagens slutt
-                document.getElementById("school-hours").innerHTML = String(schoolHours).padStart(2, '0');
-                document.getElementById("school-minutes").innerHTML = String(schoolMinutes).padStart(2, '0');
-                document.getElementById("school-seconds").innerHTML = String(schoolSeconds).padStart(2, '0');
-            } 
-            // Hvis det ikke er tirsdag, men etter skoletid, vis meldingen
-            else if (dayOfWeek === 2 && now > schoolEndTime) {
-                document.querySelector('.school-countdown').style.display = 'none';
-                document.getElementById('end-message').style.display = 'block';
-            }
-            // Når skoledagen er over, vis "Skole dagen er over🥳"
-            else {
+                    // Oppdater nedtelling til skoledagens slutt
+                    document.getElementById("school-hours").innerHTML = String(schoolHours).padStart(2, '0');
+                    document.getElementById("school-minutes").innerHTML = String(schoolMinutes).padStart(2, '0');
+                    document.getElementById("school-seconds").innerHTML = String(schoolSeconds).padStart(2, '0');
+                }
+            } else {
+                // Hvis det ikke er tirsdag, vis "Skole dagen er over" (inntil neste tirsdag)
                 document.querySelector('.school-countdown').style.display = 'none';
                 document.getElementById('end-message').style.display = 'block';
             }
         }
+
+        // Kjør funksjonen med en gang siden vi vil sjekke om skoledagen er over allerede nå
+        updateCountdown();
 
         // Oppdater nedtelling hvert sekund
         setInterval(updateCountdown, 1000);
