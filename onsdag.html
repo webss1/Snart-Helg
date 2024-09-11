@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nedtelling - Onsdag</title>
-    
-    <!-- ROG Fonts -->
+    <title>Skole Timer</title>
     <style>
         @font-face {
             font-family: 'ROG Fonts';
@@ -67,86 +65,57 @@
     </style>
 </head>
 <body>
-    <!-- Knapp for å gå tilbake til hovedsiden -->
-    <a href="index.html" class="back-button">Tilbake til Hovedsiden</a>
-
-    <h1>Onsdag</h1>
-    
-    <!-- Nedtelling til skoledagen -->
-    <div class="school-countdown">
-        <div class="countdown">
-            <div>
-                <span id="school-hours"></span>
-                <div class="label">hours</div>
-            </div>
-            <div>:</div>
-            <div>
-                <span id="school-minutes"></span>
-                <div class="label">minutes</div>
-            </div>
-            <div>:</div>
-            <div>
-                <span id="school-seconds"></span>
-                <div class="label">seconds</div>
-            </div>
-        </div>
-        <div id="school-message">til skoledagen er over</div>
-        <div class="message" id="end-message">Skole dagen er over🥳</div>
+    <div class="container">
+        <h1>Skole Timer</h1>
+        <div class="timer" id="timer"></div>
+        <div id="message"></div>
     </div>
 
     <script>
-        function updateCountdown() {
-            // Nåværende tidspunkt
+        function startTimer() {
             const now = new Date();
+            const start = new Date();
+            start.setHours(18, 40, 0); // 9:10 om morgenen
 
-            // Hent ukedagen (0 = søndag, 1 = mandag, ..., 5 = fredag, 6 = lørdag)
-            const dayOfWeek = now.getDay();
-            
-            // Sett tidspunkt for slutten av skoledagen (Mandag: 15:20)
-            const schoolEndTime = new Date();
-            schoolEndTime.setHours(15, 20, 0, 0); // Mandag kl. 15:20
+            const end = new Date();
+            end.setHours(18, 50, 0); // 15:20 på ettermiddagen
 
-            // Hvis det er fredag etter skoleslutt, lørdag eller søndag, vis "Skole dagen er over🥳"
-            if (dayOfWeek === 6 || dayOfWeek === 0 || (dayOfWeek === 5 && now > schoolEndTime)) {
-                document.querySelector('.school-countdown').style.display = 'none';
-                document.getElementById('end-message').style.display = 'block';
+            // Hvis klokken er etter 15:20, sett starttidspunktet til neste dag
+            if (now > end) {
+                start.setDate(start.getDate() + 1);
             }
-            // Hvis det er mandag før skolestart, start nedtellingen
-            else if (dayOfWeek === 1 && now < schoolEndTime) {
-                const schoolDifference = schoolEndTime - now;
 
-                // Beregn timer, minutter og sekunder til skoledagens slutt
-                const schoolHours = Math.floor((schoolDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const schoolMinutes = Math.floor((schoolDifference % (1000 * 60 * 60)) / (1000 * 60));
-                const schoolSeconds = Math.floor((schoolDifference % (1000 * 60)) / 1000);
+            function updateTimer() {
+                const currentTime = new Date();
+                const remainingTime = end - currentTime;
 
-                // Oppdater nedtelling til skoledagens slutt
-                document.getElementById("school-hours").innerHTML = String(schoolHours).padStart(2, '0');
-                document.getElementById("school-minutes").innerHTML = String(schoolMinutes).padStart(2, '0');
-                document.getElementById("school-seconds").innerHTML = String(schoolSeconds).padStart(2, '0');
-            } 
-            // Hvis vi er i løpet av en vanlig skoledag, vis nedtellingen
-            else if (now < schoolEndTime && dayOfWeek === 1) {
-                const schoolDifference = schoolEndTime - now;
+                // Hvis nedtellingen er ferdig
+                if (remainingTime <= 0) {
+                    document.getElementById("timer").style.display = "none";
+                    document.getElementById("message").innerText = "Skolen er ferdig!";
+                    clearInterval(interval);
+                    return;
+                }
 
-                const schoolHours = Math.floor((schoolDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const schoolMinutes = Math.floor((schoolDifference % (1000 * 60 * 60)) / (1000 * 60));
-                const schoolSeconds = Math.floor((schoolDifference % (1000 * 60)) / 1000);
+                // Kalkuler timer, minutter og sekunder
+                const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
-                // Oppdater nedtelling til skoledagens slutt
-                document.getElementById("school-hours").innerHTML = String(schoolHours).padStart(2, '0');
-                document.getElementById("school-minutes").innerHTML = String(schoolMinutes).padStart(2, '0');
-                document.getElementById("school-seconds").innerHTML = String(schoolSeconds).padStart(2, '0');
+                // Oppdater timeren på skjermen
+                document.getElementById("timer").innerHTML = 
+                    `Tid igjen: ${hours}t ${minutes}m ${seconds}s`;
             }
-            // Når skoledagen er over, vis "Skole dagen er over🥳"
-            else {
-                document.querySelector('.school-countdown').style.display = 'none';
-                document.getElementById('end-message').style.display = 'block';
-            }
+
+            // Oppdater hver sekund
+            const interval = setInterval(updateTimer, 1000);
+
+            // Kjør funksjonen umiddelbart for å vise timeren med en gang
+            updateTimer();
         }
 
-        // Oppdater nedtelling hvert sekund
-        setInterval(updateCountdown, 1000);
+        // Start timeren når siden lastes
+        window.onload = startTimer;
     </script>
 </body>
 </html>
