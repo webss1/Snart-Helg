@@ -8,31 +8,34 @@
         body {
             background-color: black; /* Svart bakgrunn */
             color: red; /* Hvit tekstfarge for kontrast */
-            font-family: "ROG Fonts"; /* Enkel font */
+            font-family: "ROG Fonts", sans-serif; /* Enkel font */
             margin: 0; /* Fjern standard margin */
             display: flex; /* Bruk flexbox for sentrering */
             flex-direction: column; /* Vertikal layout */
             align-items: center; /* Horisontal sentrering */
             justify-content: center; /* Vertikal sentrering */
-            height: 1000vh; /* Full høyde på visningsvinduet */
+            height: 100vh; /* Full høyde på visningsvinduet */
         }
         main {
             text-align: center; /* Sentrer tekst i main */
         }
         h1 {
-            font-size: 5rem; /* Stor skriftstørrelse for h1 */
+            font-size: 8rem; /* Stor skriftstørrelse for h1 */
         }
         p {
-            font-size: 2rem; /* Stor skriftstørrelse for p */
+            font-size: 3rem; /* Stor skriftstørrelse for p */
+            margin: 0; /* Fjerne marginer rundt teksten */
         }
         footer {
             position: absolute;
-            bottom: 100px; /* Plassere footer nederst */
+            bottom: 50px; /* Plassere footer nær bunnen */
             text-align: center; /* Sentrer tekst i footer */
         }
         img {
             display: block; /* Forhindre inline space rundt bildet */
             margin: 0 auto; /* Horisontal sentrering av bildet */
+            width: 800px; /* Øke bredde på bildet */
+            height: auto; /* Oppretthold bildeproposjoner */
         }
         .back-button {
             position: absolute;
@@ -41,8 +44,8 @@
             background-color: red;
             color: white;
             border: none;
-            padding: 10px 20px;
-            font-size: 1em;
+            padding: 15px 30px; /* Øke størrelse på knappen */
+            font-size: 1.5em; /* Øke skriftstørrelse på knappen */
             cursor: pointer;
             font-family: 'ROG Fonts', sans-serif;
         }
@@ -50,11 +53,13 @@
 </head>
 <body>
     <a href="index.html" class="back-button">Tilbake til Hovedsiden</a>
+    <main>
+        <h1>Credit</h1>
     </main>
     <footer>
         <p>Takk til Amund for denne flotte nettsiden.</p>
         <!-- Merk: Fjerne "src" fra <img> taggen og bruke en korrekt sti -->
-        <img src="amundking.jpg" alt="amundking"width="400" height="400">
+        <img src="amundking.jpg" alt="amundking">
     </footer>
 </body>
 </html>
