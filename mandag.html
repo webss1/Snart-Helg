@@ -65,8 +65,11 @@
     <script>
         function startTimer() {
             const now = new Date();
+            const start = new Date();
+            start.setHours(9, 10, 0); // 11:00
+
             const end = new Date();
-            end.setHours(15,20, 0); // Sluttid kl. 15:20
+            end.setHours(15, 20, 0); // 15:30
 
             // Oppdaterer timeren hver sekund
             function updateTimer() {
@@ -101,7 +104,5 @@
         // Start timeren når siden lastes
         window.onload = startTimer;
     </script>
-</body>
-</html>
 </body>
 </html>
