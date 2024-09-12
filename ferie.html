@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferie Nedtelling</title>
+    
+    <style>
+        @font-face {
+            font-family: 'ROG Fonts';
+            src: url('rog-fonts.ttf') format('truetype');
+        }
+
+        body {
+            background-color: black;
+            color: red;
+            font-family: 'ROG Fonts', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 40px;
+        }
+
+        .countdown-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+
+        .countdown {
+            border: 2px solid red;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+        }
+
+        .countdown h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .time {
+            font-size: 1.5rem;
+        }
+
+        .label {
+            text-transform: lowercase;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>Nedtelling til Ferier</h1>
+    
+    <div class="countdown-container">
+        <div class="countdown" id="hoestferie">
+            <h2>Høstferie</h2>
+            <div class="time" id="hoestferie-time"></div>
+        </div>
+
+        <div class="countdown" id="juleferie">
+            <h2>Juleferie</h2>
+            <div class="time" id="juleferie-time"></div>
+        </div>
+
+        <div class="countdown" id="vinterferie">
+            <h2>Vinterferie</h2>
+            <div class="time" id="vinterferie-time"></div>
+        </div>
+
+        <div class="countdown" id="paaskeferie">
+            <h2>Påskeferie</h2>
+            <div class="time" id="paaskeferie-time"></div>
+        </div>
+
+        <div class="countdown" id="sommerferie">
+            <h2>Sommerferie</h2>
+            <div class="time" id="sommerferie-time"></div>
+        </div>
+
+        <div class="countdown" id="syttendemai">
+            <h2>17. Mai</h2>
+            <div class="time" id="syttendemai-time"></div>
+        </div>
+    </div>
+
+    <button class="back-button" onclick="window.location.href='index.html'">Tilbake til Hovedsiden</button>
+
+    <script>
+        function calculateCountdown(targetDate, elementId) {
+            const now = new Date();
+            const difference = targetDate - now;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            if (difference > 0) {
+                document.getElementById(elementId).innerHTML = 
+                    `${days} <span class="label">dager</span> ${hours} <span class="label">timer</span> ${minutes} <span class="label">minutter</span> ${seconds} <span class="label">sekunder</span>`;
+            } else {
+                document.getElementById(elementId).innerHTML = "Ferien har startet!";
+            }
+        }
+
+        function updateCountdowns() {
+            const hoestferie = new Date('September 27, 2024 13:40:00');
+            const juleferie = new Date('December 20, 2024 13:40:00');
+            const vinterferie = new Date('February 14, 2025 13:40:00');
+            const paaskeferie = new Date('April 11, 2025 13:40:00');
+            const sommerferie = new Date('June 20, 2025 12:00:00');
+            const syttendemai = new Date('May 17, 2025 00:00:00');
+
+            calculateCountdown(hoestferie, 'hoestferie-time');
+            calculateCountdown(juleferie, 'juleferie-time');
+            calculateCountdown(vinterferie, 'vinterferie-time');
+            calculateCountdown(paaskeferie, 'paaskeferie-time');
+            calculateCountdown(sommerferie, 'sommerferie-time');
+            calculateCountdown(syttendemai, 'syttendemai-time');
+        }
+
+        // Oppdaterer nedtellingene hvert sekund
+        setInterval(updateCountdowns, 1000);
+    </script>
+</body>
+</html>
