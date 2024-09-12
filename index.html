@@ -133,6 +133,24 @@
             background-color: darkred;
         }
 
+        /* Ny knapp for Pong */
+        .pong-button {
+            position: absolute;
+            top: 70px; /* Plassere under ferie-knappen */
+            right: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+        }
+
+        .pong-button:hover {
+            background-color: darkred;
+        }
+
         /* Stiler for dagknapper */
         .button-container {
             display: flex;
@@ -159,6 +177,7 @@
 <body>
     <button class="credits-button" onclick="window.location.href='credits.html'">Credits</button>
     <button class="ferie-button" onclick="window.location.href='ferie.html'">Ferie</button>
+    <button class="pong-button" onclick="window.location.href='https://webss1.github.io/pong/'">Pong</button>
 
     <div class="countdown">
         <div>
