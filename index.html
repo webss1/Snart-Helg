@@ -115,6 +115,24 @@
             background-color: darkred;
         }
 
+        /* Knapp for å gå til ferie.html */
+        .ferie-button {
+            position: absolute;
+            top: 20px;
+            right: 20px; /* Avstand fra høyre side */
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+        }
+
+        .ferie-button:hover {
+            background-color: darkred;
+        }
+
         /* Stiler for dagknapper */
         .button-container {
             display: flex;
@@ -140,6 +158,7 @@
 </head>
 <body>
     <button class="credits-button" onclick="window.location.href='credits.html'">Credits</button>
+    <button class="ferie-button" onclick="window.location.href='ferie.html'">Ferie</button>
 
     <div class="countdown">
         <div>
