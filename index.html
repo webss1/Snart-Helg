@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nedtelling til Helg med Prosent</title>
+    
+    <!-- ROG Fonts -->
+    <style>
+        @font-face {
+            font-family: 'ROG Fonts';
+            src: url('rog-fonts.ttf') format('truetype');
+        }
+
+        body {
+            background-color: black;
+            color: red;
+            font-family: 'ROG Fonts', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            position: relative; /* For å posisjonere knapp relativt til body */
+        }
+
+        .countdown {
+            display: flex;
+            font-size: 6em;
+            margin-bottom: 30px;
+        }
+
+        .countdown div {
+            margin: 0 10px;
+        }
+
+        .label {
+            font-size: 0.25em;
+            text-transform: lowercase;
+        }
+
+        .small-text {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+
+        /* Hjulet */
+        .progress-circle {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin-top: 50px; /* Avstand mellom nedtellingen og hjulet */
+        }
+
+        .progress-circle svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-circle circle {
+            fill: none;
+            stroke-width: 10;
+        }
+
+        .progress-background {
+            stroke: rgb(255, 255, 255); /* Hvit sirkel i bakgrunnen */
+        }
+
+        .progress-bar {
+            stroke: red; /* Fyll farge */
+            stroke-dasharray: 628; /* Lengden på sirkelen */
+            stroke-dashoffset: 628; /* Startposisjon - 100% tom */
+            transition: stroke-dashoffset 1s linear; /* Smooth overgang */
+        }
+
+        .progress-circle .percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            color: red;
+        }
+
+        /* Knapp for å gå tilbake til hovedsiden */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+        }
+
+        /* Knapp for Credits */
+        .credits-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+        }
+
+        .credits-button:hover {
+            background-color: darkred;
+        }
+
+        /* Knapp for å gå til ferie.html */
+        .ferie-button {
+            position: absolute;
+            top: 20px;
+            right: 20px; /* Avstand fra høyre side */
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+        }
+
+        .ferie-button:hover {
+            background-color: darkred;
+        }
+
+        /* Stiler for dagknapper */
+        .button-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .button-container a {
+            background-color: red;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-size: 1.5em;
+            font-family: 'ROG Fonts', sans-serif;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-container a:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <button class="credits-button" onclick="window.location.href='credits.html'">Credits</button>
+    <button class="ferie-button" onclick="window.location.href='ferie.html'">Ferie</button>
+
+    <div class="countdown">
+        <div>
+            <span id="days"></span>
+            <div class="label">days</div>
+        </div>
+        <div>:</div>
+        <div>
+            <span id="hours"></span>
+            <div class="label">hours</div>
+        </div>
+        <div>:</div>
+        <div>
+            <span id="minutes"></span>
+            <div class="label">minutes</div>
+        </div>
+        <div>:</div>
+        <div>
+            <span id="seconds"></span>
+            <div class="label">seconds</div>
+        </div>
+    </div>
+
+    <!-- Hjulet -->
+    <div class="progress-circle">
+        <svg width="200" height="200">
+            <!-- Bakgrunnsirkelen -->
+            <circle class="progress-background" cx="100" cy="100" r="100" />
+            <!-- Fyllesirkelen -->
+            <circle class="progress-bar" cx="100" cy="100" r="100" />
+        </svg>
+        <div class="percentage" id="percentage">0%</div>
+    </div>
+
+    <div class="small-text">til helg</div>
+
+    <script>
+        // Definer verdier for tid til helg
+        function updateCountdown() {
+            // Nåværende tidspunkt
+            const now = new Date();
+
+            // Sett tidspunkt for fredag kl 13:40
+            let targetDate = new Date();
+            targetDate.setHours(13, 40, 0, 0); // Fredag kl. 13:40
+
+            // Hvis vi er etter fredag kl. 13:40, gå til neste fredag
+            const currentDay = now.getDay();
+            if (currentDay > 5 || (currentDay === 5 && now > targetDate)) {
+                targetDate.setDate(targetDate.getDate() + (12 - currentDay)); // Neste fredag
+            } else if (currentDay < 5) {
+                targetDate.setDate(now.getDate() + (5 - currentDay)); // Denne ukens fredag
+            }
+
+            // Kalkuler hvor mye tid som gjenstår
+            const difference = targetDate - now;
+
+            // Konverter til dager, timer, minutter, sekunder
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            // Oppdater nedtellingstekst
+            document.getElementById("days").innerHTML = String(days).padStart(2, '0');
+            document.getElementById("hours").innerHTML = String(hours).padStart(2, '0');
+            document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
+
+            // Tid i millisekunder fra mandag 00:00 til fredag 13:40
+            const weekTotalTime = (5 * 24 * 60 * 60 * 1000) + (13 * 60 * 60 * 1000) + (40 * 60 * 1000);
+            const elapsed = weekTotalTime - difference;
+            const percentage = Math.min((elapsed / weekTotalTime) * 100, 100);
+
+            // Oppdater hjulet
+            const circle = document.querySelector('.progress-bar');
+            const radius = circle.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (percentage / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+
+            // Oppdater prosentandel i midten
+            document.getElementById("percentage").innerHTML = Math.floor(percentage) + "%";
+        }
+
+        // Oppdater nedtelling og hjulet hvert sekund
+        setInterval(updateCountdown, 1000);
+    </script>
+
+    <!-- Knappene for å velge dag -->
+    <h1>Velg dag</h1>
+    <div class="button-container">
+        <a href="mandag.html">Mandag</a>
+        <a href="tirsdag.html">Tirsdag</a>
+        <a href="onsdag.html">Onsdag</a>
+        <a href="torsdag.html">Torsdag</a>
+        <a href="fredag.html">Fredag</a>
+    </div>
+</body>
+</html>
+
