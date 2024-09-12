@@ -14,9 +14,11 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            flex-direction: column;
         }
         .container {
             text-align: center;
+            margin-bottom: 100px; /* Litt plass til den lille timeren nederst */
         }
         .timer {
             font-size: 10rem; /* Gjør skriften mye større */
@@ -43,9 +45,21 @@
             cursor: pointer;
             font-family: 'ROG Fonts', sans-serif;
         }
-
         .back-button:hover {
             background-color: darkred;
+        }
+        .small-timer-container {
+            position: absolute;
+            bottom: 20px;
+            text-align: center;
+            color: red;
+        }
+        .small-timer {
+            font-size: 3rem; /* Størrelse på den lille timeren */
+            letter-spacing: 5px;
+        }
+        .small-label {
+            font-size: 1.5rem;
         }
     </style>
 </head>
@@ -62,47 +76,99 @@
         <div id="message"></div>
     </div>
 
+    <div class="small-timer-container">
+        <div class="small-timer" id="small-timer">
+            <span id="small-hours">00</span>:<span id="small-minutes">00</span>:<span id="small-seconds">00</span>
+        </div>
+        <div class="small-label">Når starter neste time?</div>
+    </div>
+
     <script>
-        function startTimer() {
+        function startMainTimer() {
             const now = new Date();
             const start = new Date();
-            start.setHours(8,40, 0); // 11:00
+            start.setHours(8, 40, 0); // Mandag kl. 09:10
 
             const end = new Date();
-            end.setHours(13, 10, 0); // 15:30
+            end.setHours(13, 10, 0); // 15:20
 
-            // Oppdaterer timeren hver sekund
-            function updateTimer() {
+            function updateMainTimer() {
                 const currentTime = new Date();
                 const remainingTime = end - currentTime;
 
-                // Hvis nedtellingen er ferdig
                 if (remainingTime <= 0) {
                     document.getElementById("hours").innerText = "00";
                     document.getElementById("minutes").innerText = "00";
                     document.getElementById("seconds").innerText = "00";
                     document.getElementById("message").innerText = "Skolen er ferdig🥳🥳🥳";
-                    clearInterval(interval);
+                    clearInterval(mainInterval);
                     return;
                 }
 
-                // Kalkuler timer, minutter og sekunder
                 const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
-                // Oppdaterer HTML med gjenværende tid
                 document.getElementById("hours").innerText = String(hours).padStart(2, '0');
                 document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
                 document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+
+                // Hvis det er etter 09:10, start den lille timeren
+                if (currentTime >= start) {
+                    startSmallTimer();
+                }
             }
 
-            const interval = setInterval(updateTimer, 1000);
-            updateTimer();
+            const mainInterval = setInterval(updateMainTimer, 1000);
+            updateMainTimer();
+        }
+
+        function startSmallTimer() {
+            const intervals = [
+                { hours: 1, minutes: 0, label: "1 time" },
+                { hours: 1, minutes: 0, label: "1 time" },
+                { hours: 0, minutes: 30, label: "30 minutter" },
+                { hours: 1, minutes: 0, label: "1 time" },
+                { hours: 1, minutes: 0, label: "1 time" },
+            ];
+
+            let currentIntervalIndex = 0;
+
+            function setNextInterval() {
+                const interval = intervals[currentIntervalIndex];
+                const now = new Date();
+                const end = new Date();
+                end.setHours(now.getHours() + interval.hours, now.getMinutes() + interval.minutes, 0);
+
+                function updateSmallTimer() {
+                    const currentTime = new Date();
+                    const remainingTime = end - currentTime;
+
+                    if (remainingTime <= 0) {
+                        clearInterval(smallInterval);
+                        currentIntervalIndex = (currentIntervalIndex + 1) % intervals.length;
+                        setNextInterval();
+                        return;
+                    }
+
+                    const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+                    document.getElementById("small-hours").innerText = String(hours).padStart(2, '0');
+                    document.getElementById("small-minutes").innerText = String(minutes).padStart(2, '0');
+                    document.getElementById("small-seconds").innerText = String(seconds).padStart(2, '0');
+                }
+
+                const smallInterval = setInterval(updateSmallTimer, 1000);
+                updateSmallTimer();
+            }
+
+            setNextInterval();
         }
 
         // Start timeren når siden lastes
-        window.onload = startTimer;
+        window.onload = startMainTimer;
     </script>
 </body>
 </html>
