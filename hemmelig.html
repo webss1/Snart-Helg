@@ -71,6 +71,24 @@
             text-align: center;
             color: grey;
         }
+
+        #goHomeButton {
+            position: fixed; /* Bruk fixed for å plassere knappen i et fast punkt på skjermen */
+            top: 10px; /* Juster avstanden fra toppen */
+            right: 10px; /* Juster avstanden fra høyre kant */
+            font-size: 1.5em;
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+            z-index: 1000; /* Sørg for at knappen er over annet innhold */
+        }
+
+        #goHomeButton:hover {
+            background-color: darkred;
+        }
     </style>
 </head>
 <body>
@@ -91,14 +109,15 @@
     <!-- Container for bildet -->
     <div class="image-container" id="imageContainer">
         <img src="Skjermbilde_2024-09-13_220717-removebg-preview.png" alt="Bilde av meg">
-
-
     </div>
 
     <!-- Footer-tekst -->
     <div class="footer" id="footer">
         Skaperen har koden
     </div>
+
+    <!-- Ny knapp for å gå til index.html -->
+    <button id="goHomeButton" onclick="window.location.href='index.html'">Hjem</button>
 
     <script>
         function checkCode() {
@@ -133,3 +152,4 @@
 
 </body>
 </html>
+
