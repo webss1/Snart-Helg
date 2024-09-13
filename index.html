@@ -23,7 +23,7 @@
             align-items: center;
             flex-direction: column;
             text-align: center;
-            position: relative; /* For å posisjonere knapp relativt til body */
+            position: relative;
         }
 
         .countdown {
@@ -151,6 +151,24 @@
             background-color: darkred;
         }
 
+        /* Knapp i nedre høyre hjørne */
+        .secret-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+        }
+
+        .secret-button:hover {
+            background-color: darkred;
+        }
+
         /* Stiler for dagknapper */
         .button-container {
             display: flex;
@@ -178,6 +196,9 @@
     <button class="credits-button" onclick="window.location.href='credits.html'">Credits</button>
     <button class="ferie-button" onclick="window.location.href='ferie.html'">Ferie</button>
     <button class="pong-button" onclick="window.location.href='https://webss1.github.io/pong/'">Pong</button>
+    
+    <!-- Hemmelig knapp -->
+    <button class="secret-button" onclick="window.location.href='hemmelig.html'">Hemmelig</button>
 
     <div class="countdown">
         <div>
@@ -278,4 +299,5 @@
     </div>
 </body>
 </html>
+
 
