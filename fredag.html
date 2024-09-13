@@ -90,11 +90,18 @@
             start.setHours(9, 10, 0); // Mandag kl. 09:10
 
             const end = new Date();
-            end.setHours(13, 40, 0); // 15:20
+            end.setHours(13, 40, 0); // Skoleslutt 13:40
+
+            // Hent sluttid fra localStorage eller bruk standard sluttid hvis det ikke finnes
+            const savedEndTime = localStorage.getItem('mainTimerEndTime');
+            const endTime = savedEndTime ? new Date(savedEndTime) : end;
+
+            // Lagre sluttid i localStorage
+            localStorage.setItem('mainTimerEndTime', endTime);
 
             function updateMainTimer() {
                 const currentTime = new Date();
-                const remainingTime = end - currentTime;
+                const remainingTime = endTime - currentTime;
 
                 if (remainingTime <= 0) {
                     document.getElementById("hours").innerText = "00";
@@ -132,13 +139,20 @@
                 { hours: 1, minutes: 0, label: "1 time" },
             ];
 
-            let currentIntervalIndex = 0;
+            let currentIntervalIndex = localStorage.getItem('currentIntervalIndex') || 0;
+            currentIntervalIndex = parseInt(currentIntervalIndex);
 
             function setNextInterval() {
                 const interval = intervals[currentIntervalIndex];
                 const now = new Date();
-                const end = new Date();
-                end.setHours(now.getHours() + interval.hours, now.getMinutes() + interval.minutes, 0);
+
+                // Hent sluttid fra localStorage eller sett ny sluttid basert på intervallet
+                const savedSmallEndTime = localStorage.getItem('smallTimerEndTime');
+                const end = savedSmallEndTime ? new Date(savedSmallEndTime) : new Date(now.getTime() + (interval.hours * 60 + interval.minutes) * 60 * 1000);
+
+                // Lagre sluttid og nåværende intervallindeks i localStorage
+                localStorage.setItem('smallTimerEndTime', end);
+                localStorage.setItem('currentIntervalIndex', currentIntervalIndex);
 
                 function updateSmallTimer() {
                     const currentTime = new Date();
@@ -172,3 +186,4 @@
     </script>
 </body>
 </html>
+
