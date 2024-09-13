@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hemmelig Side</title>
+    <style>
+        @font-face {
+            font-family: 'ROG Fonts';
+            src: url('rog-fonts.ttf') format('truetype');
+        }
+
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'ROG Fonts', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        input {
+            font-size: 2em;
+            padding: 10px;
+            text-align: center;
+            width: 200px;
+            margin-bottom: 20px;
+            background-color: #333;
+            color: white;
+            border: 2px solid red;
+            outline: none;
+        }
+
+        button {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+            margin-top: 15px; /* Gir litt avstand fra input-feltet */
+        }
+
+        button:hover {
+            background-color: darkred;
+        }
+
+        .message {
+            font-size: 1.5em;
+            margin-top: 20px;
+            color: red;
+        }
+
+        .image-container {
+            display: none;
+        }
+
+        img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border: 5px solid red;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 1.2em;
+            text-align: center;
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="content">
+        <h1>Hemmelig Side</h1>
+
+        <!-- Input-felt for kode -->
+        <input type="password" id="codeInput" maxlength="4" placeholder="Skriv inn kode">
+        
+        <!-- Knapp for å sjekke koden -->
+        <button onclick="checkCode()">Sjekk Kode</button>
+
+        <!-- Område for meldinger som vises til brukeren -->
+        <div id="message" class="message"></div>
+    </div>
+
+    <!-- Container for bildet -->
+    <div class="image-container" id="imageContainer">
+        <img src="amundsigma.jpg" alt="Bilde av meg">
+
+
+    </div>
+
+    <!-- Footer-tekst -->
+    <div class="footer" id="footer">
+        Skaperen har koden
+    </div>
+
+    <script>
+        function checkCode() {
+            const correctCode = "0510"; // Bestemt kode
+            const userCode = document.getElementById("codeInput").value;
+            const message = document.getElementById("message");
+            const content = document.getElementById("content");
+            const imageContainer = document.getElementById("imageContainer");
+            const footer = document.getElementById("footer");
+
+            if (userCode === correctCode) {
+                // Vis meldingen "Riktig kode!" først
+                message.textContent = "Riktig kode!";
+                message.style.color = "green";
+
+                // Etter 2 sekunder, fjern alt og vis bildet
+                setTimeout(function() {
+                    content.style.display = 'none';
+                    footer.style.display = 'none';
+                    imageContainer.style.display = 'flex';
+                    imageContainer.style.justifyContent = 'center';
+                    imageContainer.style.alignItems = 'center';
+                    imageContainer.style.height = '100vh'; // Sørg for at bildet dekker hele skjermen
+                }, 2000); // 2 sekunders forsinkelse
+            } else {
+                // Feil kode, vis feilmelding
+                message.textContent = "Feil kode!";
+                message.style.color = "red";
+            }
+        }
+    </script>
+
+</body>
+</html>
