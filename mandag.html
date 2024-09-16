@@ -113,7 +113,6 @@
                 document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
                 document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
 
-                // Hvis det er etter 09:10, start den lille timeren
                 if (currentTime >= start) {
                     startSmallTimer();
                 }
@@ -133,13 +132,24 @@
                 { hours: 1, minutes: 40, label: "1 time 40 minutter" }
             ];
 
-            let currentIntervalIndex = 0;
+            let currentIntervalIndex = parseInt(localStorage.getItem('currentIntervalIndex')) || 0;
+            let smallTimerEndTime = localStorage.getItem('smallTimerEndTime');
 
             function setNextInterval() {
-                const interval = intervals[currentIntervalIndex];
                 const now = new Date();
-                const end = new Date();
-                end.setHours(now.getHours() + interval.hours, now.getMinutes() + interval.minutes, 0);
+
+                if (!smallTimerEndTime || now > new Date(smallTimerEndTime)) {
+                    const interval = intervals[currentIntervalIndex];
+                    const end = new Date();
+                    end.setHours(now.getHours() + interval.hours, now.getMinutes() + interval.minutes, 0);
+                    smallTimerEndTime = end;
+                    localStorage.setItem('smallTimerEndTime', smallTimerEndTime.toISOString());
+
+                    currentIntervalIndex = (currentIntervalIndex + 1) % intervals.length;
+                    localStorage.setItem('currentIntervalIndex', currentIntervalIndex);
+                }
+
+                const end = new Date(smallTimerEndTime);
 
                 function updateSmallTimer() {
                     const currentTime = new Date();
@@ -147,7 +157,6 @@
 
                     if (remainingTime <= 0) {
                         clearInterval(smallInterval);
-                        currentIntervalIndex = (currentIntervalIndex + 1) % intervals.length;
                         setNextInterval();
                         return;
                     }
@@ -168,7 +177,6 @@
             setNextInterval();
         }
 
-        // Start timeren når siden lastes
         window.onload = startMainTimer;
     </script>
 </body>
