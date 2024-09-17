@@ -104,6 +104,11 @@
             <h2>17. Mai</h2>
             <div class="time" id="syttendemai-time"></div>
         </div>
+
+        <div class="countdown" id="desember">
+            <h2>1. Desember</h2>
+            <div class="time" id="desember-time"></div>
+        </div>
     </div>
 
     <button class="back-button" onclick="window.location.href='index.html'">Tilbake til Hovedsiden</button>
@@ -122,17 +127,18 @@
                 document.getElementById(elementId).innerHTML = 
                     `${days} <span class="label">dager</span> ${hours} <span class="label">timer</span> ${minutes} <span class="label">minutter</span> ${seconds} <span class="label">sekunder</span>`;
             } else {
-                document.getElementById(elementId).innerHTML = "Ferien har startet!";
+                document.getElementById(elementId).innerHTML = "Eventet har startet!";
             }
         }
 
         function updateCountdowns() {
             const hoestferie = new Date('September 27, 2024 13:40:00');
+            const desember = new Date('December 1, 2024 00:00:00'); // 1. desember i norsk tid
             const juleferie = new Date('December 20, 2024 13:40:00');
             const vinterferie = new Date('February 14, 2025 13:40:00');
             const paaskeferie = new Date('April 11, 2025 13:40:00');
-            const sommerferie = new Date('June 20, 2025 12:00:00');
             const syttendemai = new Date('May 17, 2025 00:00:00');
+            const sommerferie = new Date('June 20, 2025 12:00:00');
 
             calculateCountdown(hoestferie, 'hoestferie-time');
             calculateCountdown(juleferie, 'juleferie-time');
@@ -140,6 +146,7 @@
             calculateCountdown(paaskeferie, 'paaskeferie-time');
             calculateCountdown(sommerferie, 'sommerferie-time');
             calculateCountdown(syttendemai, 'syttendemai-time');
+            calculateCountdown(desember, 'desember-time'); // Legg til nedtelling til 1. desember
         }
 
         // Oppdaterer nedtellingene hvert sekund
