@@ -59,6 +59,14 @@
             font-size: 1.5em;
             margin-top: 20px;
             color: red;
+            display: inline-block;
+            opacity: 0; /* Start som usynlig */
+            transition: opacity 1s ease, transform 1s ease; /* Animasjonseffekt */
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: scale(1.2); /* Forstørre litt */
         }
 
         .image-container {
@@ -147,16 +155,20 @@
             const confettiCanvas = document.getElementById("confettiCanvas");
 
             if (userCode === correctCode) {
-                // Vis meldingen "Riktig kode!" først
+                // Vis meldingen "Riktig kode!" med animasjon
                 message.textContent = "Riktig kode!";
-                message.style.color = "green";
-
+                message.classList.add('show');
+                
                 // Aktiver konfetti-effekten
                 confetti.create(confettiCanvas, { resize: true })({ 
-                    particleCount: 100, 
-                    spread: 70, 
+                    particleCount: 200, 
+                    spread: 100, 
                     origin: { y: 0.6 } 
                 });
+
+                // Spill av en lyd
+                const audio = new Audio('success-sound.mp3'); // Sørg for at du har en lydfil i samme mappe
+                audio.play();
 
                 // Etter 2 sekunder, fjern alt og vis bildet
                 setTimeout(function() {
@@ -171,10 +183,12 @@
                 // Feil kode, vis feilmelding
                 message.textContent = "Feil kode!";
                 message.style.color = "red";
+                message.classList.remove('show'); // Fjern animasjon for feil kode
             }
         }
     </script>
 
 </body>
 </html>
+
 
