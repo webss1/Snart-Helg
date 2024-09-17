@@ -128,7 +128,7 @@
 
     <!-- Container for bildet -->
     <div class="image-container" id="imageContainer">
-        <img src="Skjermbilde_2024-09-13_220717-removebg-preview.png" alt="Bilde av meg">
+        <img src="Skjermbilde_2024-09-13_220717-removebg-preview.png" alt="Bilde av meg" style="max-width: 100%; max-height: 100vh;">
     </div>
 
     <!-- Footer-tekst -->
@@ -160,7 +160,8 @@
                 message.classList.add('show');
                 
                 // Aktiver konfetti-effekten
-                confetti.create(confettiCanvas, { resize: true })({ 
+                const myConfetti = confetti.create(confettiCanvas, { resize: true });
+                myConfetti({ 
                     particleCount: 200, 
                     spread: 100, 
                     origin: { y: 0.6 } 
