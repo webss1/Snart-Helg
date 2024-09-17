@@ -200,7 +200,7 @@
     <!-- Hemmelig knapp -->
     <button class="secret-button" onclick="window.location.href='hemmelig.html'">Hemmelig</button>
 
-    <div class="countdown">
+    <div class="countdown" id="countdown">
         <div>
             <span id="days"></span>
             <div class="label">days</div>
@@ -223,7 +223,7 @@
     </div>
 
     <!-- Hjulet -->
-    <div class="progress-circle">
+    <div class="progress-circle" id="progress-circle">
         <svg width="200" height="200">
             <!-- Bakgrunnsirkelen -->
             <circle class="progress-background" cx="100" cy="100" r="100" />
@@ -237,29 +237,51 @@
 
     <script>
         function updateCountdown() {
-            // Nåværende tidspunkt
             const now = new Date();
+            
+            // Tidspunkt for mandag kl. 00:00
+            let startOfWeek = new Date();
+            startOfWeek.setDate(now.getDate() - now.getDay() + 1); // Mandag denne uken
+            startOfWeek.setHours(0, 0, 0, 0); // Sett til kl. 00:00
+            
+            // Tidspunkt for fredag kl. 13:40
+            let endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 4); // Fredag
+            endOfWeek.setHours(13, 40, 0, 0); // Sett til kl. 13:40
+            
+            // Tidspunkt for neste mandag kl. 00:00
+            let nextStartOfWeek = new Date(startOfWeek);
+            nextStartOfWeek.setDate(startOfWeek.getDate() + 7);
+            
+            let countdownStart;
+            let countdownEnd;
+            let displayStatus;
 
-            // Sett tidspunkt for neste mandag kl 00:00
-            let targetDate = new Date();
-            let dayOfWeek = targetDate.getDay();
-            let daysUntilMonday = (1 - dayOfWeek + 7) % 7;
-            targetDate.setDate(targetDate.getDate() + daysUntilMonday);
-            targetDate.setHours(0, 0, 0, 0);
-
-            // Hvis vi er etter mandag kl 00:00, gå til neste mandag
-            if (now > targetDate) {
-                targetDate.setDate(targetDate.getDate() + 7);
+            // Bestem hvilken tidsperiode vi er i
+            if (now < startOfWeek) {
+                // Før mandag 00:00
+                countdownStart = startOfWeek;
+                countdownEnd = endOfWeek;
+                displayStatus = "til helg";
+            } else if (now <= endOfWeek) {
+                // Mellom mandag 00:00 og fredag 13:40
+                countdownStart = now;
+                countdownEnd = endOfWeek;
+                displayStatus = "til helg";
+            } else {
+                // Etter fredag 13:40, vis "Det er helg" til neste mandag 00:00
+                countdownStart = now;
+                countdownEnd = nextStartOfWeek;
+                displayStatus = "Det er helg🥳";
             }
 
-            // Kalkuler hvor mye tid som gjenstår
-            const difference = targetDate - now;
+            const difference = countdownEnd - countdownStart;
 
-            // Hvis vi er på eller etter mandag kl 00:00, vis "Helg"
+            // Hvis vi er på eller etter nedtellingens slutt, vis helg-beskjed
             if (difference <= 0) {
-                document.querySelector(".countdown").style.display = 'none';
-                document.querySelector(".progress-circle").style.display = 'none';
-                document.getElementById("status").textContent = 'Helg!';
+                document.getElementById("countdown").style.display = "none";
+                document.getElementById("progress-circle").style.display = "none";
+                document.getElementById("status").innerHTML = "Det er helg🥳";
                 return;
             }
 
@@ -289,6 +311,7 @@
 
             // Oppdater prosentandel i midten
             document.getElementById("percentage").innerHTML = Math.floor(percentage) + "%";
+            document.getElementById("status").innerHTML = displayStatus;
         }
 
         // Oppdater nedtelling og hjulet hvert sekund
