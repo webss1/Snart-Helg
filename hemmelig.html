@@ -160,6 +160,10 @@
                 message.classList.add('show');
                 
                 // Aktiver konfetti-effekten
+                if (typeof confetti === 'undefined') {
+                    console.error('Konfetti-biblioteket ble ikke lastet riktig.');
+                    return;
+                }
                 const myConfetti = confetti.create(confettiCanvas, { resize: true });
                 myConfetti({ 
                     particleCount: 200, 
@@ -191,5 +195,6 @@
 
 </body>
 </html>
+
 
 
