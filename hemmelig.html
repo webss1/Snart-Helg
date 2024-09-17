@@ -20,6 +20,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            position: relative; /* Viktig for at canvas skal vises over alt annet */
         }
 
         h1 {
@@ -89,6 +90,17 @@
         #goHomeButton:hover {
             background-color: darkred;
         }
+
+        /* Stil for canvas */
+        #confettiCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none; /* Sørg for at canvas ikke blokkerer klikk */
+            z-index: 999; /* Sørg for at canvas er over annet innhold */
+        }
     </style>
 </head>
 <body>
@@ -122,6 +134,7 @@
     <!-- Legg til canvas for konfetti-effekten -->
     <canvas id="confettiCanvas"></canvas>
 
+    <!-- Inkluder canvas-confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.0/dist/confetti.browser.min.js"></script>
     <script>
         function checkCode() {
@@ -139,13 +152,6 @@
                 message.style.color = "green";
 
                 // Aktiver konfetti-effekten
-                confettiCanvas.style.position = 'fixed';
-                confettiCanvas.style.top = '0';
-                confettiCanvas.style.left = '0';
-                confettiCanvas.style.width = '100vw';
-                confettiCanvas.style.height = '100vh';
-                confettiCanvas.style.zIndex = '1000'; // Sørg for at canvas er over annet innhold
-
                 confetti.create(confettiCanvas, { resize: true })({ 
                     particleCount: 100, 
                     spread: 70, 
