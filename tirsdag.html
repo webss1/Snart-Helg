@@ -128,11 +128,12 @@
                 { hours: 1, minutes: 0, label: "1 time" },
                 { hours: 0, minutes: 30, label: "30 minutter" },
                 { hours: 1, minutes: 0, label: "1 time" },
-                { hours: 1, minutes: 0, label: "1 time" }
+                { hours: 1, minutes: 0, label: "1 time" },
             ];
 
             let currentIntervalIndex = parseInt(localStorage.getItem('currentIntervalIndex')) || 0;
             let smallTimerEndTime = localStorage.getItem('smallTimerEndTime');
+            let nextIntervalTime = localStorage.getItem('nextIntervalTime');
 
             function setNextInterval() {
                 const now = new Date();
@@ -146,6 +147,11 @@
 
                     currentIntervalIndex = (currentIntervalIndex + 1) % intervals.length;
                     localStorage.setItem('currentIntervalIndex', currentIntervalIndex);
+
+                    // Lagre tid til neste intervall
+                    const nextInterval = new Date(smallTimerEndTime);
+                    nextInterval.setSeconds(nextInterval.getSeconds() + 1); // For å sikre at neste intervall ikke blir vurdert umiddelbart
+                    localStorage.setItem('nextIntervalTime', nextInterval.toISOString());
                 }
 
                 const end = new Date(smallTimerEndTime);
@@ -173,6 +179,7 @@
                 updateSmallTimer();
             }
 
+            // Start på nytt
             setNextInterval();
         }
 
