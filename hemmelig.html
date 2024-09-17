@@ -119,6 +119,10 @@
     <!-- Ny knapp for å gå til index.html -->
     <button id="goHomeButton" onclick="window.location.href='index.html'">Hjem</button>
 
+    <!-- Legg til canvas for konfetti-effekten -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.0/dist/confetti.browser.min.js"></script>
     <script>
         function checkCode() {
             const correctCode = "2009"; // Bestemt kode
@@ -127,11 +131,26 @@
             const content = document.getElementById("content");
             const imageContainer = document.getElementById("imageContainer");
             const footer = document.getElementById("footer");
+            const confettiCanvas = document.getElementById("confettiCanvas");
 
             if (userCode === correctCode) {
                 // Vis meldingen "Riktig kode!" først
                 message.textContent = "Riktig kode!";
                 message.style.color = "green";
+
+                // Aktiver konfetti-effekten
+                confettiCanvas.style.position = 'fixed';
+                confettiCanvas.style.top = '0';
+                confettiCanvas.style.left = '0';
+                confettiCanvas.style.width = '100vw';
+                confettiCanvas.style.height = '100vh';
+                confettiCanvas.style.zIndex = '1000'; // Sørg for at canvas er over annet innhold
+
+                confetti.create(confettiCanvas, { resize: true })({ 
+                    particleCount: 100, 
+                    spread: 70, 
+                    origin: { y: 0.6 } 
+                });
 
                 // Etter 2 sekunder, fjern alt og vis bildet
                 setTimeout(function() {
