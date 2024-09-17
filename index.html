@@ -233,28 +233,35 @@
         <div class="percentage" id="percentage">0%</div>
     </div>
 
-    <div class="small-text">til helg</div>
+    <div class="small-text" id="status">til helg</div>
 
     <script>
-        // Definer verdier for tid til helg
         function updateCountdown() {
             // Nåværende tidspunkt
             const now = new Date();
 
-            // Sett tidspunkt for fredag kl 13:40
+            // Sett tidspunkt for neste mandag kl 00:00
             let targetDate = new Date();
-            targetDate.setHours(13, 40, 0, 0); // Fredag kl. 13:40
+            let dayOfWeek = targetDate.getDay();
+            let daysUntilMonday = (1 - dayOfWeek + 7) % 7;
+            targetDate.setDate(targetDate.getDate() + daysUntilMonday);
+            targetDate.setHours(0, 0, 0, 0);
 
-            // Hvis vi er etter fredag kl. 13:40, gå til neste fredag
-            const currentDay = now.getDay();
-            if (currentDay > 5 || (currentDay === 5 && now > targetDate)) {
-                targetDate.setDate(targetDate.getDate() + (12 - currentDay)); // Neste fredag
-            } else if (currentDay < 5) {
-                targetDate.setDate(now.getDate() + (5 - currentDay)); // Denne ukens fredag
+            // Hvis vi er etter mandag kl 00:00, gå til neste mandag
+            if (now > targetDate) {
+                targetDate.setDate(targetDate.getDate() + 7);
             }
 
             // Kalkuler hvor mye tid som gjenstår
             const difference = targetDate - now;
+
+            // Hvis vi er på eller etter mandag kl 00:00, vis "Helg"
+            if (difference <= 0) {
+                document.querySelector(".countdown").style.display = 'none';
+                document.querySelector(".progress-circle").style.display = 'none';
+                document.getElementById("status").textContent = 'Helg!';
+                return;
+            }
 
             // Konverter til dager, timer, minutter, sekunder
             const days = Math.floor(difference / (1000 * 60 * 60 * 24));
@@ -299,5 +306,6 @@
     </div>
 </body>
 </html>
+
 
 
