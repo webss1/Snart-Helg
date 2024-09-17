@@ -58,10 +58,14 @@
         .message {
             font-size: 1.5em;
             margin-top: 20px;
-            color: green;
+            color: red; /* Standard farge for feil kode */
             display: inline-block;
             opacity: 0; /* Start som usynlig */
             transition: opacity 1s ease, transform 1s ease; /* Animasjonseffekt */
+        }
+
+        .message.correct {
+            color: green; /* Farge for riktig kode */
         }
 
         .message.show {
@@ -157,8 +161,8 @@
             if (userCode === correctCode) {
                 // Vis meldingen "Riktig kode!" med animasjon
                 message.textContent = "Riktig kode!";
-                message.classList.add('show');
-                
+                message.classList.add('show', 'correct');
+
                 // Aktiver konfetti-effekten
                 if (typeof confetti === 'undefined') {
                     console.error('Konfetti-biblioteket ble ikke lastet riktig.');
@@ -187,8 +191,9 @@
             } else {
                 // Feil kode, vis feilmelding
                 message.textContent = "Feil kode!";
-                message.style.color = "red";
-                message.classList.remove('show'); // Fjern animasjon for feil kode
+                message.classList.remove('show', 'correct');
+                message.style.color = "red"; // Sørg for at feilmeldingen alltid vises i rødt
+                message.classList.add('show'); // Vis feilmeldingen med animasjon
             }
         }
     </script>
