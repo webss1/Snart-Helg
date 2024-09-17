@@ -90,18 +90,11 @@
             start.setHours(9, 10, 0); // Mandag kl. 09:10
 
             const end = new Date();
-            end.setHours(13, 40, 0); // Skoleslutt 13:40
-
-            // Hent sluttid fra localStorage eller bruk standard sluttid hvis det ikke finnes
-            const savedEndTime = localStorage.getItem('mainTimerEndTime');
-            const endTime = savedEndTime ? new Date(savedEndTime) : end;
-
-            // Lagre sluttid i localStorage
-            localStorage.setItem('mainTimerEndTime', endTime);
+            end.setHours(13, 40, 0); // 15:20
 
             function updateMainTimer() {
                 const currentTime = new Date();
-                const remainingTime = endTime - currentTime;
+                const remainingTime = end - currentTime;
 
                 if (remainingTime <= 0) {
                     document.getElementById("hours").innerText = "00";
@@ -120,7 +113,6 @@
                 document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
                 document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
 
-                // Hvis det er etter 09:10, start den lille timeren
                 if (currentTime >= start) {
                     startSmallTimer();
                 }
@@ -139,20 +131,30 @@
                 { hours: 1, minutes: 0, label: "1 time" },
             ];
 
-            let currentIntervalIndex = localStorage.getItem('currentIntervalIndex') || 0;
-            currentIntervalIndex = parseInt(currentIntervalIndex);
+            let currentIntervalIndex = parseInt(localStorage.getItem('currentIntervalIndex')) || 0;
+            let smallTimerEndTime = localStorage.getItem('smallTimerEndTime');
+            let nextIntervalTime = localStorage.getItem('nextIntervalTime');
 
             function setNextInterval() {
-                const interval = intervals[currentIntervalIndex];
                 const now = new Date();
 
-                // Hent sluttid fra localStorage eller sett ny sluttid basert på intervallet
-                const savedSmallEndTime = localStorage.getItem('smallTimerEndTime');
-                const end = savedSmallEndTime ? new Date(savedSmallEndTime) : new Date(now.getTime() + (interval.hours * 60 + interval.minutes) * 60 * 1000);
+                if (!smallTimerEndTime || now > new Date(smallTimerEndTime)) {
+                    const interval = intervals[currentIntervalIndex];
+                    const end = new Date();
+                    end.setHours(now.getHours() + interval.hours, now.getMinutes() + interval.minutes, 0);
+                    smallTimerEndTime = end;
+                    localStorage.setItem('smallTimerEndTime', smallTimerEndTime.toISOString());
 
-                // Lagre sluttid og nåværende intervallindeks i localStorage
-                localStorage.setItem('smallTimerEndTime', end);
-                localStorage.setItem('currentIntervalIndex', currentIntervalIndex);
+                    currentIntervalIndex = (currentIntervalIndex + 1) % intervals.length;
+                    localStorage.setItem('currentIntervalIndex', currentIntervalIndex);
+
+                    // Lagre tid til neste intervall
+                    const nextInterval = new Date(smallTimerEndTime);
+                    nextInterval.setSeconds(nextInterval.getSeconds() + 1); // For å sikre at neste intervall ikke blir vurdert umiddelbart
+                    localStorage.setItem('nextIntervalTime', nextInterval.toISOString());
+                }
+
+                const end = new Date(smallTimerEndTime);
 
                 function updateSmallTimer() {
                     const currentTime = new Date();
@@ -160,7 +162,6 @@
 
                     if (remainingTime <= 0) {
                         clearInterval(smallInterval);
-                        currentIntervalIndex = (currentIntervalIndex + 1) % intervals.length;
                         setNextInterval();
                         return;
                     }
@@ -178,12 +179,13 @@
                 updateSmallTimer();
             }
 
+            // Start på nytt
             setNextInterval();
         }
 
-        // Start timeren når siden lastes
         window.onload = startMainTimer;
     </script>
 </body>
 </html>
+
 
