@@ -20,7 +20,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            position: relative; /* Viktig for at canvas skal vises over alt annet */
+            position: relative;
         }
 
         h1 {
@@ -48,7 +48,7 @@
             border: none;
             cursor: pointer;
             font-family: 'ROG Fonts', sans-serif;
-            margin-top: 15px; /* Gir litt avstand fra input-feltet */
+            margin-top: 15px;
         }
 
         button:hover {
@@ -58,19 +58,19 @@
         .message {
             font-size: 1.5em;
             margin-top: 20px;
-            color: red; /* Standard farge for feil kode */
+            color: red;
             display: inline-block;
-            opacity: 0; /* Start som usynlig */
-            transition: opacity 1s ease, transform 1s ease; /* Animasjonseffekt */
+            opacity: 0;
+            transition: opacity 1s ease, transform 1s ease;
         }
 
         .message.correct {
-            color: green; /* Farge for riktig kode */
+            color: green;
         }
 
         .message.show {
             opacity: 1;
-            transform: scale(1.2); /* Forstørre litt */
+            transform: scale(1.2);
         }
 
         .image-container {
@@ -86,9 +86,9 @@
         }
 
         #goHomeButton {
-            position: fixed; /* Bruk fixed for å plassere knappen i et fast punkt på skjermen */
-            top: 10px; /* Juster avstanden fra toppen */
-            right: 10px; /* Juster avstanden fra høyre kant */
+            position: fixed;
+            top: 10px;
+            right: 10px;
             font-size: 1.5em;
             padding: 10px 20px;
             background-color: red;
@@ -96,7 +96,7 @@
             border: none;
             cursor: pointer;
             font-family: 'ROG Fonts', sans-serif;
-            z-index: 1000; /* Sørg for at knappen er over annet innhold */
+            z-index: 1000;
         }
 
         #goHomeButton:hover {
@@ -110,8 +110,8 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            pointer-events: none; /* Sørg for at canvas ikke blokkerer klikk */
-            z-index: 999; /* Sørg for at canvas er over annet innhold */
+            pointer-events: none;
+            z-index: 999;
         }
     </style>
 </head>
@@ -119,38 +119,27 @@
 
     <div id="content">
         <h1>Hemmelig Side</h1>
-
-        <!-- Input-felt for kode -->
         <input type="password" id="codeInput" maxlength="4" placeholder="Skriv inn kode">
-        
-        <!-- Knapp for å sjekke koden -->
         <button onclick="checkCode()">Sjekk Kode</button>
-
-        <!-- Område for meldinger som vises til brukeren -->
         <div id="message" class="message"></div>
     </div>
 
-    <!-- Container for bildet -->
     <div class="image-container" id="imageContainer">
         <img src="Skjermbilde_2024-09-13_220717-removebg-preview.png" alt="Bilde av meg" style="max-width: 100%; max-height: 100vh;">
     </div>
 
-    <!-- Footer-tekst -->
     <div class="footer" id="footer">
         Skaperen har koden
     </div>
 
-    <!-- Ny knapp for å gå til index.html -->
     <button id="goHomeButton" onclick="window.location.href='index.html'">Hjem</button>
 
-    <!-- Legg til canvas for konfetti-effekten -->
     <canvas id="confettiCanvas"></canvas>
 
-    <!-- Inkluder canvas-confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
         function checkCode() {
-            const correctCode = 2009"; // Bestemt kode
+            const correctCode = "2009"; // Bestemt kode
             const userCode = document.getElementById("codeInput").value;
             const message = document.getElementById("message");
             const content = document.getElementById("content");
@@ -158,16 +147,13 @@
             const footer = document.getElementById("footer");
             const confettiCanvas = document.getElementById("confettiCanvas");
 
+            // Reset message visibility
+            message.classList.remove('show', 'correct');
+
             if (userCode === correctCode) {
-                // Vis meldingen "Riktig kode!" med animasjon
                 message.textContent = "Riktig kode!";
                 message.classList.add('show', 'correct');
 
-                // Aktiver konfetti-effekten
-                if (typeof confetti === 'undefined') {
-                    console.error('Konfetti-biblioteket ble ikke lastet riktig.');
-                    return;
-                }
                 const myConfetti = confetti.create(confettiCanvas, { resize: true });
                 myConfetti({ 
                     particleCount: 200, 
@@ -175,31 +161,29 @@
                     origin: { y: 0.6 } 
                 });
 
-                // Spill av en lyd
-                const audio = new Audio('success-sound.mp3'); // Sørg for at du har en lydfil i samme mappe
+                const audio = new Audio('success-sound.mp3');
                 audio.play();
 
-                // Etter 2 sekunder, fjern alt og vis bildet
                 setTimeout(function() {
                     content.style.display = 'none';
                     footer.style.display = 'none';
                     imageContainer.style.display = 'flex';
                     imageContainer.style.justifyContent = 'center';
                     imageContainer.style.alignItems = 'center';
-                    imageContainer.style.height = '100vh'; // Sørg for at bildet dekker hele skjermen
-                }, 2000); // 2 sekunders forsinkelse
+                    imageContainer.style.height = '100vh';
+                }, 2000);
             } else {
-                // Feil kode, vis feilmelding
                 message.textContent = "Feil kode!";
-                message.classList.remove('show', 'correct');
-                message.style.color = "red"; // Sørg for at feilmeldingen alltid vises i rødt
-                message.classList.add('show'); // Vis feilmeldingen med animasjon
+                message.classList.remove('correct');
+                message.style.color = "red";
+                message.classList.add('show');
             }
         }
     </script>
 
 </body>
 </html>
+
 
 
 
