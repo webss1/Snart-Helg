@@ -109,6 +109,11 @@
             <h2>17. Mai</h2>
             <div class="time" id="syttendemai-time"></div>
         </div>
+        
+        <div class="countdown" id="AmundBursdag">
+            <h2>Amund Sin Bursdag</h2>
+            <div class="time" id="AmundBursdag-time"></div>
+        </div>
     </div>
 
     <button class="back-button" onclick="window.location.href='index.html'">Tilbake til Hovedsiden</button>
@@ -139,6 +144,7 @@
             const paaskeferie = new Date('April 11, 2025 13:40:00');
             const syttendemai = new Date('May 17, 2025 00:00:00');
             const sommerferie = new Date('June 20, 2025 12:00:00');
+            const AmundBursdag = new Date('October 5, 2025 00:00:00');
 
             calculateCountdown(hoestferie, 'hoestferie-time');
             calculateCountdown(desember, 'desember-time');
@@ -147,6 +153,7 @@
             calculateCountdown(paaskeferie, 'paaskeferie-time');
             calculateCountdown(sommerferie, 'sommerferie-time');
             calculateCountdown(syttendemai, 'syttendemai-time');
+            calculateCountdown(AmundBursdag, 'AmundBursdag-time');
         }
 
         // Oppdaterer nedtellingene hvert sekund
