@@ -18,14 +18,14 @@
         }
         .container {
             text-align: center;
-            margin-bottom: 100px; /* Litt plass til den lille timeren nederst */
+            margin-bottom: 100px;
         }
         .timer {
-            font-size: 10rem; /* Gjør skriften mye større */
+            font-size: 10rem;
             letter-spacing: 10px;
         }
         .label {
-            font-size: 2rem; /* Gjør etikettene større også */
+            font-size: 2rem;
             margin-top: -10px;
             letter-spacing: 6px;
         }
@@ -55,7 +55,7 @@
             color: red;
         }
         .small-timer {
-            font-size: 3rem; /* Størrelse på den lille timeren */
+            font-size: 3rem;
             letter-spacing: 5px;
         }
         .small-label {
@@ -67,16 +67,16 @@
     <a href="index.html" class="back-button">Tilbake til Hovedsiden</a>
 
     <div class="container">
-        <div class="timer" id="timer">
+        <div id="message"></div>
+        <div class="timer" id="timer" style="display: none;">
             <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
         </div>
-        <div class="label">
+        <div class="label" style="display: none;">
             <span>timer</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>minutter</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>sekunder</span>
         </div>
-        <div id="message"></div>
     </div>
 
-    <div class="small-timer-container">
+    <div class="small-timer-container" style="display: none;">
         <div class="small-timer" id="small-timer">
             <span id="small-hours">00</span>:<span id="small-minutes">00</span>:<span id="small-seconds">00</span>
         </div>
@@ -86,6 +86,14 @@
     <script>
         function startMainTimer() {
             const now = new Date();
+            const day = now.getDay(); // Henter ukedagen (0 = søndag, 1 = mandag, osv.)
+
+            // Sjekker om det er mandag
+            if (day !== 1) {
+                document.getElementById("message").innerText = "Det er enda ikke mandag";
+                return;
+            }
+
             const start = new Date();
             start.setHours(8, 40, 0); // Mandag kl. 09:10
 
@@ -97,13 +105,15 @@
                 const remainingTime = end - currentTime;
 
                 if (remainingTime <= 0) {
-                    document.getElementById("hours").innerText = "00";
-                    document.getElementById("minutes").innerText = "00";
-                    document.getElementById("seconds").innerText = "00";
-                    document.getElementById("message").innerText = "Skolen er ferdig🥳🥳🥳";
+                    document.getElementById("message").innerText = "Tirsdag er ferdig🥳🥳🥳";
+                    document.getElementById("timer").style.display = "none";
+                    document.querySelector(".label").style.display = "none";
                     clearInterval(mainInterval);
                     return;
                 }
+
+                document.getElementById("timer").style.display = "block";
+                document.querySelector(".label").style.display = "block";
 
                 const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
@@ -112,10 +122,6 @@
                 document.getElementById("hours").innerText = String(hours).padStart(2, '0');
                 document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
                 document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
-
-                if (currentTime >= start) {
-                    startSmallTimer();
-                }
             }
 
             const mainInterval = setInterval(updateMainTimer, 1000);
@@ -123,67 +129,11 @@
         }
 
         function startSmallTimer() {
-            const intervals = [
-                { hours: 1, minutes: 0, label: "1 time" },
-                { hours: 1, minutes: 0, label: "1 time" },
-                { hours: 0, minutes: 30, label: "30 minutter" },
-                { hours: 1, minutes: 0, label: "1 time" },
-                { hours: 1, minutes: 0, label: "1 time" },
-            ];
-
-            let currentIntervalIndex = parseInt(localStorage.getItem('currentIntervalIndex')) || 0;
-            let smallTimerEndTime = localStorage.getItem('smallTimerEndTime');
-            let nextIntervalTime = localStorage.getItem('nextIntervalTime');
-
-            function setNextInterval() {
-                const now = new Date();
-
-                if (!smallTimerEndTime || now > new Date(smallTimerEndTime)) {
-                    const interval = intervals[currentIntervalIndex];
-                    const end = new Date();
-                    end.setHours(now.getHours() + interval.hours, now.getMinutes() + interval.minutes, 0);
-                    smallTimerEndTime = end;
-                    localStorage.setItem('smallTimerEndTime', smallTimerEndTime.toISOString());
-
-                    currentIntervalIndex = (currentIntervalIndex + 1) % intervals.length;
-                    localStorage.setItem('currentIntervalIndex', currentIntervalIndex);
-
-                    // Lagre tid til neste intervall
-                    const nextInterval = new Date(smallTimerEndTime);
-                    nextInterval.setSeconds(nextInterval.getSeconds() + 1); // For å sikre at neste intervall ikke blir vurdert umiddelbart
-                    localStorage.setItem('nextIntervalTime', nextInterval.toISOString());
-                }
-
-                const end = new Date(smallTimerEndTime);
-
-                function updateSmallTimer() {
-                    const currentTime = new Date();
-                    const remainingTime = end - currentTime;
-
-                    if (remainingTime <= 0) {
-                        clearInterval(smallInterval);
-                        setNextInterval();
-                        return;
-                    }
-
-                    const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
-                    document.getElementById("small-hours").innerText = String(hours).padStart(2, '0');
-                    document.getElementById("small-minutes").innerText = String(minutes).padStart(2, '0');
-                    document.getElementById("small-seconds").innerText = String(seconds).padStart(2, '0');
-                }
-
-                const smallInterval = setInterval(updateSmallTimer, 1000);
-                updateSmallTimer();
-            }
-
-            // Start på nytt
-            setNextInterval();
+            // Kun implementert om nødvendig
         }
 
         window.onload = startMainTimer;
     </script>
 </body>
 </html>
+
