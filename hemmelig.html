@@ -16,6 +16,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            overflow: hidden;
         }
 
         .glow-text {
@@ -94,18 +95,57 @@
         // Den riktige koden
         const correctCode = "2009";
 
+        // Funksjon for å starte regnet
+        function startRaining() {
+            const rainContainer = document.createElement("div");
+            rainContainer.classList.add("rain-container");
+            document.body.appendChild(rainContainer);
+
+            const rainImage = document.createElement("img");
+            rainImage.src = "amundkul.png";  // Sett inn stien til bildet ditt her
+            rainImage.style.position = "absolute";
+            rainImage.style.width = "50px";  // Juster størrelsen på bildet
+            rainImage.style.height = "50px";  // Juster størrelsen på bildet
+            rainImage.style.animation = "fall 3s linear infinite"; // Animasjon for regnet
+            rainContainer.appendChild(rainImage);
+
+            // Regneffekt - skaper mange bilder som faller fra toppen
+            setInterval(() => {
+                const clone = rainImage.cloneNode();
+                clone.style.left = Math.random() * window.innerWidth + "px"; // Plasser tilfeldig på skjermen
+                rainContainer.appendChild(clone);
+            }, 100);
+        }
+
+        // Legg til stil for regnet (animasjon)
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = `
+            @keyframes fall {
+                0% { top: -50px; }
+                100% { top: 100vh; }
+            }
+            .rain-container img {
+                animation: fall 3s linear infinite;
+                position: absolute;
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
         // Knapp for å verifisere koden
         document.getElementById("submit-code").addEventListener("click", function() {
             const enteredCode = document.getElementById("code-input").value;
 
             if (enteredCode === correctCode) {
-                // Hvis koden er riktig, vis Amund Rommet og spill musikk
+                // Hvis koden er riktig, vis Amund Rommet, start regnet og spill musikk
                 document.getElementById("amund-rommet").style.display = "block";
                 document.getElementById("error-message").style.display = "none"; // Fjern feilmeldingen hvis koden er riktig
                 document.querySelector(".code-container").style.display = "none"; // Skjul kodefeltet
 
                 // Spill bakgrunnsmusikk i loop
                 document.getElementById("background-music").play();
+
+                // Start regnet
+                startRaining();
             } else {
                 // Hvis koden er feil, vis feilmelding
                 document.getElementById("error-message").innerText = "Feil kode! Prøv igjen.";
