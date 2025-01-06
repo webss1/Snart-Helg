@@ -99,6 +99,15 @@
             display: none;
             margin-top: 20px;
         }
+        /* Animasjon for stjernene */
+        .starry-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            animation: starry 1.5s infinite linear;
     </style>
 </head>
 <body>
@@ -164,6 +173,17 @@
                 image.remove();
             }, 5000); // Bilde fjernes etter 5 sekunder (juster etter behov)
         }
+        
+         // Funksjon som starter regnet med bilder
+        document.getElementById("start-rain-button").addEventListener("click", function() {
+            // Lag en ny div for hvert bilde som skal falle
+            createFallingImage();
+
+            // Øk scoretellingen ved hvert trykk
+            score++;
+            document.getElementById("score").innerText = score; // Oppdater score på skjermen
+        });
+
     </script>
 
 </body>
