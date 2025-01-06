@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prøv å løs koden</title>
+    <title>Mystisk Side</title>
     <style>
         body {
             margin: 0;
@@ -24,7 +24,7 @@
             text-align: center;
             letter-spacing: 10px;
             color: #fff;
-            text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
         }
 
         .glowing-button {
@@ -36,7 +36,7 @@
             background-color: #fff;
             border: none;
             border-radius: 30px;
-            box-shadow: 0 0 10px #ffffff;
+            box-shadow: 0 0 10px #ff00ff;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
         }
@@ -53,18 +53,6 @@
             height: 50px; /* Sett størrelsen på bildet ditt */
             animation: fall 5s linear infinite;
         }
-
-        .back-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1em;
-            cursor: pointer;
-            font-family: 'ROG Fonts', sans-serif;
 
         @keyframes fall {
             0% {
@@ -121,12 +109,35 @@
             color: #fff;
             display: none; /* Skjult til riktig kode er skrevet */
         }
+
+        /* Knapp for å gå tilbake til hovedsiden */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #ff00ff;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #ff33cc;
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="glow-text">Velkommen til Amund rommet</div>
-    
+    <!-- Knapp for å gå tilbake til hovedsiden -->
+    <a href="index.html" class="back-button">Tilbake til Hovedsiden</a>
+
+    <div class="glow-text">Velkommen til det mystiske rommet</div>
+
     <!-- Kodeinputfelt og verifisering -->
     <div class="code-container" id="code-container">
         <input type="text" id="code-input" class="code-input" placeholder="Skriv inn 4-sifret kode" maxlength="4">
@@ -200,3 +211,4 @@
 
 </body>
 </html>
+
