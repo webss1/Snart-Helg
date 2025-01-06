@@ -58,27 +58,44 @@
             0% { background-position: 0 0; }
             100% { background-position: 500px 500px; }
         }
+
+        /* Skjult div for den mystiske portalen */
+        .portal {
+            display: none;
+            color: #ff00ff;
+            font-size: 3rem;
+            text-align: center;
+            margin-top: 50px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
     <div class="starry-background"></div>
     <div class="glow-text">Velkommen til det mystiske rommet</div>
-    <button class="glowing-button" onclick="alert('Du har trådt inn i en annen dimensjon')">Åpne Portalen</button>
+    
+    <button class="glowing-button" id="portal-button">Åpne Portalen</button>
+
+    <!-- Skjult portal som vises når knappen trykkes -->
+    <div class="portal" id="portal-message">
+        Du har trådt inn i en annen dimensjon!
+    </div>
 
     <script>
-        // Animasjon for å gjøre bakgrunnen dynamisk med stjerneskyer som beveger seg
-        window.onload = () => {
-            const glowText = document.querySelector('.glow-text');
-            glowText.addEventListener('mouseenter', () => {
-                glowText.style.color = '#ff00ff';
-            });
-            glowText.addEventListener('mouseleave', () => {
-                glowText.style.color = '#fff';
-            });
-        };
+        // Funksjon for å åpne portalen når knappen trykkes
+        document.getElementById("portal-button").addEventListener("click", function() {
+            // Skjul knappen
+            document.getElementById("portal-button").style.display = "none";
+            
+            // Vis portalbeskjed
+            document.getElementById("portal-message").style.display = "block";
+        });
     </script>
 </body>
 </html>
-
-
 
