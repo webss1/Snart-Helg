@@ -95,17 +95,17 @@
             }
 
             const start = new Date();
-            start.setHours(8, 40, 0); // Mandag kl. 09:10
+            start.setHours(9, 10, 0); // Mandag kl. 09:10
 
             const end = new Date();
-            end.setHours(13, 10, 0); // 15:20
+            end.setHours(13, 40, 0); // 15:20
 
             // Sjekker om det er før tirsdag kl. 00:00
             const tuesdayStart = new Date();
             tuesdayStart.setHours(0, 0, 0); // Tirsdag kl. 00:00
 
             if (now < tuesdayStart) {
-                document.getElementById("message").innerText = "Tirsdag har enda ikke startet!";
+                document.getElementById("message").innerText = "Fredag har enda ikke startet!";
                 return;
             }
 
@@ -114,7 +114,7 @@
                 const remainingTime = end - currentTime;
 
                 if (remainingTime <= 0) {
-                    document.getElementById("message").innerText = "Tirsdag er ferdig🥳🥳🥳";
+                    document.getElementById("message").innerText = "Fredag er ferdig🥳🥳🥳";
                     document.getElementById("timer").style.display = "none";
                     document.querySelector(".label").style.display = "none";
                     clearInterval(mainInterval);
