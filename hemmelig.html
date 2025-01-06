@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mystisk Side</title>
+    <title>Prøv å løs koden</title>
     <style>
         body {
             margin: 0;
@@ -24,7 +24,7 @@
             text-align: center;
             letter-spacing: 10px;
             color: #fff;
-            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
         }
 
         .glowing-button {
@@ -109,12 +109,13 @@
             display: none;
         }
 
+        /* Knapp for å gå tilbake til hovedsiden */
         .back-button {
             position: absolute;
             top: 20px;
             right: 20px;
             padding: 10px 20px;
-            background-color: #fff00ff;
+            background-color: #ff00ff;
             color: black;
             border: none;
             border-radius: 5px;
@@ -125,9 +126,10 @@
 
         .back-button:hover {
             background-color: #fff;
-            box-shadow: 0 0 40px #fff;
+            box-shadow: 0 0 40px #ff00ff;
             transform: scale(1.1);
         }
+
 
         /* Butikkknappen */
         .shop-button {
@@ -177,13 +179,25 @@
         .shop-item button:hover {
             background-color: #ff33cc;
         }
+
+        /* Lukkeknapp for butikken */
+        .close-shop {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
     </style>
 </head>
 <body>
 
     <a href="index.html" class="back-button">Tilbake til Hovedsiden</a>
 
-    <div class="glow-text">Velkommen til det mystiske rommet</div>
+    <div class="glow-text">Velkommen til Amund rommet</div>
 
     <div class="code-container" id="code-container">
         <input type="text" id="code-input" class="code-input" placeholder="Skriv inn 4-sifret kode" maxlength="4">
@@ -193,7 +207,7 @@
 
     <div class="hidden-content" id="amund-rommet">
         <button class="glowing-button" id="start-rain-button">
-            <img src="amundkul2.png" alt="Start Regn" style="width: 100px; height: 100px;">
+            <img src="amundkul.png" alt="Start Regn" style="width: 100px; height: 100px;">
         </button>
     </div>
 
@@ -206,6 +220,7 @@
 
     <!-- Butikkvindu -->
     <div class="shop-window" id="shop-window">
+        <button class="close-shop" id="close-shop">×</button> <!-- Lukkeknapp -->
         <div class="shop-item">
             <span>Dobbel Trykk - 500 poeng</span>
             <button id="buy-double-click">Kjøp</button>
@@ -254,7 +269,7 @@
 
         function createFallingImage() {
             const image = document.createElement("img");
-            image.src = "amundkul2.png";
+            image.src = "amundkul.png";
             image.classList.add("falling-image");
             image.style.left = `${Math.random() * 100}vw`;
 
@@ -272,6 +287,11 @@
         // Funksjon for å åpne butikken
         document.getElementById("shop-button").addEventListener("click", function() {
             document.getElementById("shop-window").style.display = "block"; // Åpne butikkvinduet
+        });
+
+        // Funksjon for å lukke butikken
+        document.getElementById("close-shop").addEventListener("click", function() {
+            document.getElementById("shop-window").style.display = "none"; // Lukk butikkvinduet
         });
 
         // Funksjoner for å kjøpe produkter
