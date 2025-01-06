@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nedtelling til Helg med Prosent</title>
-
-    <!-- Fancy Styles -->
+    
+    <!-- ROG Fonts -->
     <style>
         @font-face {
             font-family: 'ROG Fonts';
@@ -29,9 +29,8 @@
 
         .countdown {
             display: flex;
-            font-size: 5em;
+            font-size: 6em;
             margin-bottom: 30px;
-            text-shadow: 0 0 10px #fff, 0 0 20px cyan, 0 0 30px cyan, 0 0 40px cyan;
         }
 
         .countdown div {
@@ -41,39 +40,19 @@
         .label {
             font-size: 0.25em;
             text-transform: lowercase;
-            color: rgba(255, 255, 255, 0.8);
         }
 
         .small-text {
             font-size: 1.5em;
             margin-top: 20px;
-            animation: glow 2s infinite alternate;
         }
 
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px #fff, 0 0 20px cyan, 0 0 30px cyan;
-            }
-            to {
-                text-shadow: 0 0 20px cyan, 0 0 40px cyan, 0 0 60px cyan;
-            }
-        }
-
+        /* Boble-design */
         .progress-circle {
             position: relative;
-            width: 220px;
-            height: 220px;
+            width: 250px;
+            height: 250px;
             margin-top: 50px;
-            animation: spin 10s linear infinite;
-        }
-
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
         }
 
         .progress-circle svg {
@@ -86,15 +65,26 @@
         }
 
         .progress-background {
-            stroke: rgba(255, 255, 255, 0.2);
+            stroke: rgba(255, 255, 255, 0.2); /* Transparent bakgrunnssirkel */
         }
 
         .progress-bar {
-            stroke: cyan;
-            stroke-dasharray: 628;
-            stroke-dashoffset: 628;
-            transition: stroke-dashoffset 1s linear;
-            filter: drop-shadow(0 0 15px cyan);
+            stroke: rgba(255, 255, 255, 0.8); /* Fyllfarge */
+            stroke-dasharray: 628; /* Lengden på sirkelen */
+            stroke-dashoffset: 628; /* Startposisjon - 100% tom */
+            transition: stroke-dashoffset 1s linear; /* Smooth overgang */
+        }
+
+        .progress-circle .bubble {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1));
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
         }
 
         .progress-circle .percentage {
@@ -103,10 +93,111 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 2em;
-            color: cyan;
-            text-shadow: 0 0 10px #fff, 0 0 20px cyan;
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
+        /* Knapp for å gå tilbake til hovedsiden */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+            backdrop-filter: blur(5px);
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Knapp for Credits */
+        .credits-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+            backdrop-filter: blur(5px);
+            transition: background-color 0.3s ease;
+        }
+
+        .credits-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Knapp for å gå til ferie.html */
+        .ferie-button {
+            position: absolute;
+            top: 20px;
+            right: 20px; /* Avstand fra høyre side */
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+            backdrop-filter: blur(5px);
+            transition: background-color 0.3s ease;
+        }
+
+        .ferie-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Ny knapp for Pong */
+        .pong-button {
+            position: absolute;
+            top: 70px; /* Plassere under ferie-knappen */
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+            backdrop-filter: blur(5px);
+            transition: background-color 0.3s ease;
+        }
+
+        .pong-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Knapp i nedre høyre hjørne */
+        .secret-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            font-family: 'ROG Fonts', sans-serif;
+            backdrop-filter: blur(5px);
+            transition: background-color 0.3s ease;
+        }
+
+        .secret-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Stiler for dagknapper */
         .button-container {
             display: flex;
             gap: 20px;
@@ -114,58 +205,20 @@
         }
 
         .button-container a {
-            background: linear-gradient(45deg, cyan, purple);
+            background-color: rgba(255, 255, 255, 0.1);
             color: white;
             padding: 15px 30px;
             text-decoration: none;
             font-size: 1.5em;
             font-family: 'ROG Fonts', sans-serif;
-            border-radius: 50px;
-            box-shadow: 0 0 20px cyan;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 5px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: background-color 0.3s ease;
         }
 
         .button-container a:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 40px purple;
-        }
-
-        .credits-button, .ferie-button, .pong-button, .secret-button {
-            background: linear-gradient(45deg, cyan, purple);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1em;
-            cursor: pointer;
-            font-family: 'ROG Fonts', sans-serif;
-            border-radius: 20px;
-            position: absolute;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .credits-button:hover, .ferie-button:hover, .pong-button:hover, .secret-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px purple;
-        }
-
-        .credits-button {
-            top: 20px;
-            left: 20px;
-        }
-
-        .ferie-button {
-            top: 20px;
-            right: 20px;
-        }
-
-        .pong-button {
-            top: 70px;
-            right: 20px;
-        }
-
-        .secret-button {
-            bottom: 20px;
-            right: 20px;
+            background-color: rgba(255, 255, 255, 0.3);
         }
     </style>
 </head>
@@ -173,6 +226,8 @@
     <button class="credits-button" onclick="window.location.href='credits.html'">Credits</button>
     <button class="ferie-button" onclick="window.location.href='ferie.html'">Ferie</button>
     <button class="pong-button" onclick="window.location.href='https://webss1.github.io/pong/'">Pong</button>
+    
+    <!-- Hemmelig knapp -->
     <button class="secret-button" onclick="window.location.href='hemmelig.html'">Hemmelig</button>
 
     <div class="countdown" id="countdown">
@@ -197,16 +252,104 @@
         </div>
     </div>
 
+    <!-- Boble -->
     <div class="progress-circle" id="progress-circle">
-        <svg width="200" height="200">
-            <circle class="progress-background" cx="100" cy="100" r="100" />
-            <circle class="progress-bar" cx="100" cy="100" r="100" />
+        <div class="bubble"></div>
+        <svg width="250" height="250">
+            <!-- Bakgrunnsirkelen -->
+            <circle class="progress-background" cx="125" cy="125" r="100" />
+            <!-- Fyllesirkelen -->
+            <circle class="progress-bar" cx="125" cy="125" r="100" />
         </svg>
         <div class="percentage" id="percentage">0%</div>
     </div>
 
     <div class="small-text" id="status">til helg</div>
 
+    <script>
+        function updateCountdown() {
+            const now = new Date();
+            
+            // Tidspunkt for mandag kl. 00:00
+            let startOfWeek = new Date();
+            startOfWeek.setDate(now.getDate() - now.getDay() + 1); // Mandag denne uken
+            startOfWeek.setHours(0, 0, 0, 0); // Sett til kl. 00:00
+            
+            // Tidspunkt for fredag kl. 13:40
+            let endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 4); // Fredag
+            endOfWeek.setHours(13, 40, 0, 0); // Sett til kl. 13:40
+            
+            // Tidspunkt for neste mandag kl. 00:00
+            let nextStartOfWeek = new Date(startOfWeek);
+            nextStartOfWeek.setDate(startOfWeek.getDate() + 7);
+            
+            let countdownStart;
+            let countdownEnd;
+            let displayStatus;
+
+            // Bestem hvilken tidsperiode vi er i
+            if (now < startOfWeek) {
+                // Før mandag 00:00
+                countdownStart = startOfWeek;
+                countdownEnd = endOfWeek;
+                displayStatus = "til helg";
+            } else if (now <= endOfWeek) {
+                // Mellom mandag 00:00 og fredag 13:40
+                countdownStart = now;
+                countdownEnd = endOfWeek;
+                displayStatus = "til helg";
+            } else {
+                // Etter fredag 13:40, vis "Det er helg" til neste mandag 00:00
+                countdownStart = now;
+                countdownEnd = nextStartOfWeek;
+                displayStatus = "Det er helg🥳";
+            }
+
+            const difference = countdownEnd - countdownStart;
+
+            // Hvis vi er på eller etter nedtellingens slutt, vis helg-beskjed
+            if (difference <= 0) {
+                document.getElementById("countdown").style.display = "none";
+                document.getElementById("progress-circle").style.display = "none";
+                document.getElementById("status").innerHTML = "Det er helg🥳";
+                return;
+            }
+
+            // Konverter til dager, timer, minutter, sekunder
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            // Oppdater nedtellingstekst
+            document.getElementById("days").innerHTML = String(days).padStart(2, '0');
+            document.getElementById("hours").innerHTML = String(hours).padStart(2, '0');
+            document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
+
+            // Tid i millisekunder fra mandag 00:00 til fredag 13:40
+            const weekTotalTime = (5 * 24 * 60 * 60 * 1000) + (13 * 60 * 60 * 1000) + (40 * 60 * 1000);
+            const elapsed = weekTotalTime - difference;
+            const percentage = Math.min((elapsed / weekTotalTime) * 100, 100);
+
+            // Oppdater hjulet
+            const circle = document.querySelector('.progress-bar');
+            const radius = circle.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (percentage / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+
+            // Oppdater prosentandel i midten
+            document.getElementById("percentage").innerHTML = Math.floor(percentage) + "%";
+            document.getElementById("status").innerHTML = displayStatus;
+        }
+
+        // Oppdater nedtelling og hjulet hvert sekund
+        setInterval(updateCountdown, 1000);
+    </script>
+
+    <!-- Knappene for å velge dag -->
     <h1>Velg dag</h1>
     <div class="button-container">
         <a href="mandag.html">Mandag</a>
@@ -215,70 +358,5 @@
         <a href="torsdag.html">Torsdag</a>
         <a href="fredag.html">Fredag</a>
     </div>
-
-    <script>
-        function updateCountdown() {
-            const now = new Date();
-            let startOfWeek = new Date();
-            startOfWeek.setDate(now.getDate() - now.getDay() + 1);
-            startOfWeek.setHours(0, 0, 0, 0);
-            let endOfWeek = new Date(startOfWeek);
-            endOfWeek.setDate(startOfWeek.getDate() + 4);
-            endOfWeek.setHours(13, 40, 0, 0);
-            let nextStartOfWeek = new Date(startOfWeek);
-            nextStartOfWeek.setDate(startOfWeek.getDate() + 7);
-            let countdownStart;
-            let countdownEnd;
-            let displayStatus;
-
-            if (now < startOfWeek) {
-                countdownStart = startOfWeek;
-                countdownEnd = endOfWeek;
-                displayStatus = "til helg";
-            } else if (now <= endOfWeek) {
-                countdownStart = now;
-                countdownEnd = endOfWeek;
-                displayStatus = "til helg";
-            } else {
-                countdownStart = now;
-                countdownEnd = nextStartOfWeek;
-                displayStatus = "Det er helg🥳";
-            }
-
-            const difference = countdownEnd - countdownStart;
-
-            if (difference <= 0) {
-                document.getElementById("countdown").style.display = "none";
-                document.getElementById("progress-circle").style.display = "none";
-                document.getElementById("status").innerHTML = "Det er helg🥳";
-                return;
-            }
-
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerHTML = String(days).padStart(2, '0');
-            document.getElementById("hours").innerHTML = String(hours).padStart(2, '0');
-            document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
-            document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
-
-            const weekTotalTime = (5 * 24 * 60 * 60 * 1000) + (13 * 60 * 60 * 1000) + (40 * 60 * 1000);
-            const elapsed = weekTotalTime - difference;
-            const percentage = Math.min((elapsed / weekTotalTime) * 100, 100);
-
-            const circle = document.querySelector('.progress-bar');
-            const radius = circle.r.baseVal.value;
-            const circumference = 2 * Math.PI * radius;
-            const offset = circumference - (percentage / 100) * circumference;
-            circle.style.strokeDashoffset = offset;
-
-            document.getElementById("percentage").innerHTML = Math.floor(percentage) + "%";
-            document.getElementById("status").innerHTML = displayStatus;
-        }
-
-        setInterval(updateCountdown, 1000);
-    </script>
 </body>
 </html>
