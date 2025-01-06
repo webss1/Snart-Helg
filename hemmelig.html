@@ -1,4 +1,4 @@
-<!<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="no">
 <head>
     <meta charset="UTF-8">
@@ -64,17 +64,83 @@
                 opacity: 0;
             }
         }
+
+        .code-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .code-input {
+            padding: 10px;
+            font-size: 2rem;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .submit-button {
+            padding: 10px 20px;
+            font-size: 2rem;
+            background-color: #ff00ff;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+
+        .hidden-content {
+            display: none;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
+
     <div class="glow-text">Velkommen til det mystiske rommet</div>
-    
-    <!-- Knapp med bilde som brukeren kan trykke på -->
-    <button class="glowing-button" id="start-rain-button">
-        <img src="amundkul.png" alt="Start Regn" style="width: 100px; height: 100px;"> <!-- Sett inn bilde -->
-    </button>
+
+    <!-- Kodeinputfelt og verifisering -->
+    <div class="code-container" id="code-container">
+        <input type="text" id="code-input" class="code-input" placeholder="Skriv inn 4-sifret kode" maxlength="4">
+        <button class="submit-button" id="submit-code">Bekreft Kode</button>
+        <div id="error-message" class="error-message"></div>
+    </div>
+
+    <!-- Skjult innhold som vises når riktig kode er skrevet -->
+    <div class="hidden-content" id="amund-rommet">
+        <button class="glowing-button" id="start-rain-button">
+            <img src="amundkul.png" alt="Start Regn" style="width: 100px; height: 100px;"> <!-- Sett inn bilde -->
+        </button>
+    </div>
 
     <script>
+        // Den riktige koden
+        const correctCode = "2009";
+
+        // Funksjon for å validere koden
+        document.getElementById("submit-code").addEventListener("click", function() {
+            const enteredCode = document.getElementById("code-input").value;
+
+            if (enteredCode === correctCode) {
+                // Hvis koden er riktig, vis Amund Rommet
+                document.getElementById("amund-rommet").style.display = "block";
+                document.getElementById("error-message").style.display = "none"; // Fjern feilmeldingen hvis koden er riktig
+                document.getElementById("code-container").style.display = "none"; // Skjul kodefeltet
+
+                // Nå kan brukeren begynne å trykke på knappen for å starte regnet
+                document.getElementById("start-rain-button").style.display = "block"; 
+            } else {
+                // Hvis koden er feil, vis feilmelding
+                document.getElementById("error-message").innerText = "Feil kode! Prøv igjen.";
+            }
+        });
+
         // Funksjon som starter regnet med bilder
         document.getElementById("start-rain-button").addEventListener("click", function() {
             // Lag en ny div for hvert bilde som skal falle
@@ -99,40 +165,6 @@
             }, 5000); // Bilde fjernes etter 5 sekunder (juster etter behov)
         }
     </script>
-    
-    <!-- Kodeinputfelt og verifisering -->
-    <div class="code-container">
-        <input type="text" id="code-input" class="code-input" placeholder="Skriv inn 4-sifret kode" maxlength="4">
-        <button class="submit-button" id="submit-code">Bekreft Kode</button>
-        <div id="error-message" class="error-message"></div>
-    </div>
 
-    <!-- Skjult innhold som vises når riktig kode er skrevet -->
-    <div class="hidden-content" id="amund-rommet">
-        <button class="glowing-button" id="start-rain-button">
-            <img src="path_to_your_image.png" alt="Start Regn" style="width: 100px; height: 100px;">
-        </button>
-    </div>
-
-    <script>
-        // Den riktige koden
-        const correctCode = "2009";
-
-        // Knapp for å verifisere koden
-        document.getElementById("submit-code").addEventListener("click", function() {
-            const enteredCode = document.getElementById("code-input").value;
-
-            if (enteredCode === correctCode) {
-                // Hvis koden er riktig, vis Amund Rommet
-                document.getElementById("amund-rommet").style.display = "block";
-                document.getElementById("error-message").style.display = "none"; // Fjern feilmeldingen hvis koden er riktig
-                document.querySelector(".code-container").style.display = "none"; // Skjul kodefeltet
-            } else {
-                // Hvis koden er feil, vis feilmelding
-                document.getElementById("error-message").innerText = "Feil kode! Prøv igjen.";
-            }
-        });
-    </script>
 </body>
 </html>
-
