@@ -126,7 +126,7 @@
 
         .back-button:hover {
             background-color: #fff;
-            box-shadow: 0 0 40px #000000;
+            box-shadow: 0 0 40px #fff00ff;
             transform: scale(1.1);
         }
 
@@ -207,7 +207,7 @@
 
     <div class="hidden-content" id="amund-rommet">
         <button class="glowing-button" id="start-rain-button">
-            <img src="amundkul.png" alt="Start Regn" style="width: 100px; height: 100px;">
+            <img src="amundkul2.png" alt="Start Regn" style="width: 100px; height: 100px;">
         </button>
     </div>
 
@@ -269,7 +269,7 @@
 
         function createFallingImage() {
             const image = document.createElement("img");
-            image.src = "amundkul.png";
+            image.src = "amundkul2.png";
             image.classList.add("falling-image");
             image.style.left = `${Math.random() * 100}vw`;
 
