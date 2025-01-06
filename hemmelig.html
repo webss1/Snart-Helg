@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mystisk Side</title>
+    <title>Mystisk Rom - Amund Rommet</title>
     <style>
         body {
             margin: 0;
@@ -16,7 +16,6 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            overflow: hidden;
         }
 
         .glow-text {
@@ -27,77 +26,93 @@
             text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
         }
 
-        .glowing-button {
-            display: block;
-            margin: 30px auto;
-            padding: 20px 40px;
+        .code-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .code-input {
+            padding: 10px;
             font-size: 2rem;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .submit-button {
+            padding: 10px 20px;
+            font-size: 2rem;
+            background-color: #ff00ff;
             color: black;
-            background-color: #fff;
             border: none;
-            border-radius: 30px;
-            box-shadow: 0 0 10px #ff00ff;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 10px #ff00ff;
         }
 
-        .glowing-button:hover {
-            box-shadow: 0 0 40px #ff00ff;
-            transform: scale(1.1);
+        .submit-button:hover {
+            box-shadow: 0 0 20px #ff00ff;
         }
 
-        .falling-image {
-            position: absolute;
-            top: -100px;
-            width: 50px;  /* Sett størrelsen på bildet ditt */
-            height: 100px; /* Sett størrelsen på bildet ditt */
-            animation: fall 5s linear infinite;
+        .error-message {
+            color: red;
+            font-size: 1.5rem;
+            margin-top: 10px;
         }
 
-        @keyframes fall {
-            0% {
-                top: -100px;
-                opacity: 1;
-            }
-            100% {
-                top: 100vh;
-                opacity: 0;
-            }
+        .hidden-content {
+            display: none;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="glow-text">Velkommen til Amund rommet</div>
-    
-    <!-- Knapp med bilde som brukeren kan trykke på -->
-    <button class="glowing-button" id="start-rain-button">
-        <img src="amundkul.png" alt="Start Regn" style="width: 100px; height: 100px;"> <!-- Sett inn bilde -->
-    </button>
+
+    <div class="glow-text">Velkommen til Amund Rommet</div>
+
+    <!-- Kodeinputfelt og verifisering -->
+    <div class="code-container">
+        <input type="text" id="code-input" class="code-input" placeholder="Skriv inn 4-sifret kode" maxlength="4">
+        <button class="submit-button" id="submit-code">Bekreft Kode</button>
+        <div id="error-message" class="error-message"></div>
+    </div>
+
+    <!-- Skjult innhold som vises når riktig kode er skrevet -->
+    <div class="hidden-content" id="amund-rommet">
+        <button class="glowing-button" id="start-rain-button">
+            <img src="path_to_your_image.png" alt="Start Regn" style="width: 100px; height: 100px;">
+        </button>
+    </div>
+
+    <!-- Legger til musikk som skal spilles i loop -->
+    <audio id="background-music" loop>
+        <source src="its_raining_tacos.mp3" type="audio/mpeg">  <!-- Sett inn stien til musikkfilen din -->
+        Din nettleser støtter ikke lydavspilling.
+    </audio>
 
     <script>
-        // Funksjon som starter regnet med bilder
-        document.getElementById("start-rain-button").addEventListener("click", function() {
-            // Lag en ny div for hvert bilde som skal falle
-            createFallingImage();
+        // Den riktige koden
+        const correctCode = "2009";
+
+        // Knapp for å verifisere koden
+        document.getElementById("submit-code").addEventListener("click", function() {
+            const enteredCode = document.getElementById("code-input").value;
+
+            if (enteredCode === correctCode) {
+                // Hvis koden er riktig, vis Amund Rommet og spill musikk
+                document.getElementById("amund-rommet").style.display = "block";
+                document.getElementById("error-message").style.display = "none"; // Fjern feilmeldingen hvis koden er riktig
+                document.querySelector(".code-container").style.display = "none"; // Skjul kodefeltet
+
+                // Spill bakgrunnsmusikk i loop
+                document.getElementById("background-music").play();
+            } else {
+                // Hvis koden er feil, vis feilmelding
+                document.getElementById("error-message").innerText = "Feil kode! Prøv igjen.";
+            }
         });
-
-        // Funksjon for å lage et fallende bilde
-        function createFallingImage() {
-            const image = document.createElement("img");
-            image.src = "amundkul.png"; // Sett inn stien til bildet ditt
-            image.classList.add("falling-image");
-
-            // Sett tilfeldig horisontal posisjon for bildet
-            image.style.left = `${Math.random() * 100}vw`; // Plasserer bildet tilfeldig på skjermen
-
-            // Legg til bildet på kroppen
-            document.body.appendChild(image);
-
-            // Etter at animasjonen er ferdig, fjern bildet
-            setTimeout(() => {
-                image.remove();
-            }, 5000); // Bilde fjernes etter 5 sekunder (juster etter behov)
-        }
     </script>
 </body>
 </html>
+
