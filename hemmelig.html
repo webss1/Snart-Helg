@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mystisk Side</title>
+    <title>Prøv å løs koden</title>
     <style>
         body {
             margin: 0;
@@ -24,7 +24,7 @@
             text-align: center;
             letter-spacing: 10px;
             color: #fff;
-            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+            text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
         }
 
         .glowing-button {
@@ -116,7 +116,7 @@
             top: 20px;
             right: 20px;
             padding: 10px 20px;
-            background-color: #ff00ff;
+            background-color: #ff0000;
             color: black;
             border: none;
             border-radius: 5px;
@@ -136,7 +136,7 @@
     <!-- Knapp for å gå tilbake til hovedsiden -->
     <a href="index.html" class="back-button">Tilbake til Hovedsiden</a>
 
-    <div class="glow-text">Velkommen til det mystiske rommet</div>
+    <div class="glow-text">Velkommen til Amund rommet</div>
 
     <!-- Kodeinputfelt og verifisering -->
     <div class="code-container" id="code-container">
@@ -148,7 +148,7 @@
     <!-- Skjult innhold som vises når riktig kode er skrevet -->
     <div class="hidden-content" id="amund-rommet">
         <button class="glowing-button" id="start-rain-button">
-            <img src="amundkul.png" alt="Start Regn" style="width: 100px; height: 100px;"> <!-- Sett inn bilde -->
+            <img src="amundkul2.png" alt="Start Regn" style="width: 100px; height: 100px;"> <!-- Sett inn bilde -->
         </button>
     </div>
 
@@ -193,7 +193,7 @@
         // Funksjon for å lage et fallende bilde
         function createFallingImage() {
             const image = document.createElement("img");
-            image.src = "amundkul.png"; // Sett inn stien til bildet ditt
+            image.src = "amundkul2.png"; // Sett inn stien til bildet ditt
             image.classList.add("falling-image");
 
             // Sett tilfeldig horisontal posisjon for bildet
