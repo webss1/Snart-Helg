@@ -11,17 +11,19 @@
             background-color: #0a0a0a;
             font-family: 'Arial', sans-serif;
             color: #fff;
-            overflow: hidden;
             height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
-        
+
         .glow-text {
             font-size: 4rem;
             text-align: center;
-            margin-top: 20%;
             letter-spacing: 10px;
             color: #fff;
-            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
         }
 
         .glowing-button {
@@ -33,61 +35,37 @@
             background-color: #fff;
             border: none;
             border-radius: 30px;
-            box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+            box-shadow: 0 0 10px #ff00ff;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
         }
 
         .glowing-button:hover {
-            box-shadow: 0 0 40px #ff00ff, 0 0 60px #ff00ff;
+            box-shadow: 0 0 40px #ff00ff;
             transform: scale(1.1);
         }
 
-        /* Animasjon for stjernene */
-        .starry-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            animation: starry 1.5s infinite linear;
-        }
-
-        @keyframes starry {
-            0% { background-position: 0 0; }
-            100% { background-position: 500px 500px; }
-        }
-
-        /* Skjult div for den mystiske portalen */
+        /* Skjult div for portalen */
         .portal {
             display: none;
-            color: #ff00ff;
             font-size: 3rem;
             text-align: center;
-            margin-top: 50px;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+            color: #ff00ff;
         }
     </style>
 </head>
 <body>
-    <div class="starry-background"></div>
     <div class="glow-text">Velkommen til det mystiske rommet</div>
     
     <button class="glowing-button" id="portal-button">Åpne Portalen</button>
 
-    <!-- Skjult portal som vises når knappen trykkes -->
+    <!-- Skjult portalbeskjed -->
     <div class="portal" id="portal-message">
         Du har trådt inn i en annen dimensjon!
     </div>
 
     <script>
-        // Funksjon for å åpne portalen når knappen trykkes
+        // Sørg for at vi lytter etter klikk på knappen
         document.getElementById("portal-button").addEventListener("click", function() {
             // Skjul knappen
             document.getElementById("portal-button").style.display = "none";
