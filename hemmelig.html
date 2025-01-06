@@ -16,6 +16,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            overflow: hidden;
         }
 
         .glow-text {
@@ -45,35 +46,58 @@
             transform: scale(1.1);
         }
 
-        /* Skjult div for portalen */
-        .portal {
-            display: none;
-            font-size: 3rem;
-            text-align: center;
-            color: #ff00ff;
+        .falling-image {
+            position: absolute;
+            top: -100px;
+            width: 50px;  /* Sett størrelsen på bildet ditt */
+            height: 50px; /* Sett størrelsen på bildet ditt */
+            animation: fall 5s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -100px;
+                opacity: 1;
+            }
+            100% {
+                top: 100vh;
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="glow-text">Velkommen til det mystiske rommet</div>
+    <div class="glow-text">Velkommen til Amund rommet</div>
     
-    <button class="glowing-button" id="portal-button">Åpne Portalen</button>
-
-    <!-- Skjult portalbeskjed -->
-    <div class="portal" id="portal-message">
-        Du har trådt inn i en annen dimensjon!
-    </div>
+    <!-- Knapp med bilde som brukeren kan trykke på -->
+    <button class="glowing-button" id="start-rain-button">
+        <img src="path_to_your_image.png" alt="Start Regn" style="width: 100px; height: 100px;"> <!-- Sett inn bilde -->
+    </button>
 
     <script>
-        // Sørg for at vi lytter etter klikk på knappen
-        document.getElementById("portal-button").addEventListener("click", function() {
-            // Skjul knappen
-            document.getElementById("portal-button").style.display = "none";
-            
-            // Vis portalbeskjed
-            document.getElementById("portal-message").style.display = "block";
+        // Funksjon som starter regnet med bilder
+        document.getElementById("start-rain-button").addEventListener("click", function() {
+            // Lag en ny div for hvert bilde som skal falle
+            createFallingImage();
         });
+
+        // Funksjon for å lage et fallende bilde
+        function createFallingImage() {
+            const image = document.createElement("img");
+            image.src = "amundkul.png"; // Sett inn stien til bildet ditt
+            image.classList.add("falling-image");
+
+            // Sett tilfeldig horisontal posisjon for bildet
+            image.style.left = `${Math.random() * 100}vw`; // Plasserer bildet tilfeldig på skjermen
+
+            // Legg til bildet på kroppen
+            document.body.appendChild(image);
+
+            // Etter at animasjonen er ferdig, fjern bildet
+            setTimeout(() => {
+                image.remove();
+            }, 5000); // Bilde fjernes etter 5 sekunder (juster etter behov)
+        }
     </script>
 </body>
 </html>
-
