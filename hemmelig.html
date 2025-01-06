@@ -1,190 +1,84 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hemmelig Side</title>
+    <title>Mystisk Side</title>
     <style>
-        @font-face {
-            font-family: 'ROG Fonts';
-            src: url('fonts/rog-fonts.ttf') format('truetype'); /* Oppdater til riktig sti */
-        }
-
         body {
-            background-color: black;
-            color: white;
-            font-family: 'ROG Fonts', sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
-            position: relative;
+            padding: 0;
+            background-color: #0a0a0a;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
         }
-
-        h1 {
-            font-size: 3em;
-            margin-bottom: 20px;
-        }
-
-        input {
-            font-size: 2em;
-            padding: 10px;
+        
+        .glow-text {
+            font-size: 4rem;
             text-align: center;
-            width: 200px;
-            margin-bottom: 20px;
-            background-color: #333;
-            color: white;
-            border: 2px solid red;
-            outline: none;
+            margin-top: 20%;
+            letter-spacing: 10px;
+            color: #fff;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
         }
 
-        button {
-            font-size: 1.5em;
-            padding: 10px 20px;
-            background-color: red;
-            color: white;
+        .glowing-button {
+            display: block;
+            margin: 30px auto;
+            padding: 20px 40px;
+            font-size: 2rem;
+            color: black;
+            background-color: #fff;
             border: none;
+            border-radius: 30px;
+            box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
             cursor: pointer;
-            font-family: 'ROG Fonts', sans-serif;
-            margin-top: 15px;
+            transition: all 0.3s ease-in-out;
         }
 
-        button:hover {
-            background-color: darkred;
+        .glowing-button:hover {
+            box-shadow: 0 0 40px #ff00ff, 0 0 60px #ff00ff;
+            transform: scale(1.1);
         }
 
-        .message {
-            font-size: 1.5em;
-            margin-top: 20px;
-            color: red;
-            display: inline-block;
-            opacity: 0;
-            transition: opacity 1s ease, transform 1s ease;
-        }
-
-        .message.correct {
-            color: green;
-        }
-
-        .message.show {
-            opacity: 1;
-            transform: scale(1.2);
-        }
-
-        .image-container {
-            display: none;
-        }
-
-        .footer {
-            position: absolute;
-            bottom: 20px;
-            font-size: 1.2em;
-            text-align: center;
-            color: grey;
-        }
-
-        #goHomeButton {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            font-size: 1.5em;
-            padding: 10px 20px;
-            background-color: red;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-family: 'ROG Fonts', sans-serif;
-            z-index: 1000;
-        }
-
-        #goHomeButton:hover {
-            background-color: darkred;
-        }
-
-        /* Stil for canvas */
-        #confettiCanvas {
+        /* Animasjon for stjernene */
+        .starry-background {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 999;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            animation: starry 1.5s infinite linear;
+        }
+
+        @keyframes starry {
+            0% { background-position: 0 0; }
+            100% { background-position: 500px 500px; }
         }
     </style>
 </head>
 <body>
+    <div class="starry-background"></div>
+    <div class="glow-text">Velkommen til det mystiske rommet</div>
+    <button class="glowing-button" onclick="alert('Du har trådt inn i en annen dimensjon')">Åpne Portalen</button>
 
-    <div id="content">
-        <h1>Hemmelig Side</h1>
-        <input type="password" id="codeInput" maxlength="4" placeholder="Skriv inn kode">
-        <button onclick="checkCode()">Sjekk Kode</button>
-        <div id="message" class="message"></div>
-    </div>
-
-    <div class="image-container" id="imageContainer">
-        <img src="Skjermbilde_2024-09-13_220717-removebg-preview.png" alt="Bilde av meg" style="max-width: 100%; max-height: 100vh;">
-    </div>
-
-    <div class="footer" id="footer">
-        Skaperen har koden
-    </div>
-
-    <button id="goHomeButton" onclick="window.location.href='index.html'">Hjem</button>
-
-    <canvas id="confettiCanvas"></canvas>
-
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
-        function checkCode() {
-            const correctCode = "2015"; // Bestemt kode
-            const userCode = document.getElementById("codeInput").value;
-            const message = document.getElementById("message");
-            const content = document.getElementById("content");
-            const imageContainer = document.getElementById("imageContainer");
-            const footer = document.getElementById("footer");
-            const confettiCanvas = document.getElementById("confettiCanvas");
-
-            // Reset message visibility
-            message.classList.remove('show', 'correct');
-
-            if (userCode === correctCode) {
-                message.textContent = "Riktig kode!";
-                message.classList.add('show', 'correct');
-
-                const myConfetti = confetti.create(confettiCanvas, { resize: true });
-                myConfetti({ 
-                    particleCount: 200, 
-                    spread: 100, 
-                    origin: { y: 0.6 } 
-                });
-
-                const audio = new Audio('success-sound.mp3');
-                audio.play();
-
-                setTimeout(function() {
-                    content.style.display = 'none';
-                    footer.style.display = 'none';
-                    imageContainer.style.display = 'flex';
-                    imageContainer.style.justifyContent = 'center';
-                    imageContainer.style.alignItems = 'center';
-                    imageContainer.style.height = '100vh';
-                }, 2000);
-            } else {
-                message.textContent = "Feil kode!";
-                message.classList.remove('correct');
-                message.style.color = "red";
-                message.classList.add('show');
-            }
-        }
+        // Animasjon for å gjøre bakgrunnen dynamisk med stjerneskyer som beveger seg
+        window.onload = () => {
+            const glowText = document.querySelector('.glow-text');
+            glowText.addEventListener('mouseenter', () => {
+                glowText.style.color = '#ff00ff';
+            });
+            glowText.addEventListener('mouseleave', () => {
+                glowText.style.color = '#fff';
+            });
+        };
     </script>
-
 </body>
 </html>
-
-
 
 
 
