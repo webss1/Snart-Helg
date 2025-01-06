@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prøv å løs koden</title>
+    <title>Mystisk Side</title>
     <style>
         body {
             margin: 0;
@@ -24,7 +24,7 @@
             text-align: center;
             letter-spacing: 10px;
             color: #fff;
-            text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
         }
 
         .glowing-button {
@@ -49,8 +49,8 @@
         .falling-image {
             position: absolute;
             top: -100px;
-            width: 50px;  /* Sett størrelsen på bildet ditt */
-            height: 50px; /* Sett størrelsen på bildet ditt */
+            width: 50px;
+            height: 50px;
             animation: fall 5s linear infinite;
         }
 
@@ -100,23 +100,21 @@
             margin-top: 20px;
         }
 
-        /* Style for score counter */
         .score-container {
             position: absolute;
             bottom: 20px;
             left: 20px;
             font-size: 2rem;
             color: #fff;
-            display: none; /* Skjult til riktig kode er skrevet */
+            display: none;
         }
 
-        /* Knapp for å gå tilbake til hovedsiden */
         .back-button {
             position: absolute;
             top: 20px;
             right: 20px;
             padding: 10px 20px;
-            background-color: #fff;
+            background-color: #fff00ff;
             color: black;
             border: none;
             border-radius: 5px;
@@ -126,91 +124,195 @@
         }
 
         .back-button:hover {
-            background-color: #ff33cc;
+            background-color: #fff;
             box-shadow: 0 0 40px #fff;
             transform: scale(1.1);
         }
 
+        /* Butikkknappen */
+        .shop-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #ff00ff;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .shop-button:hover {
+            background-color: #ff33cc;
+        }
+
+        /* Butikkvindu */
+        .shop-window {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .shop-item {
+            margin: 10px 0;
+            font-size: 1.5rem;
+        }
+
+        .shop-item button {
+            padding: 5px 10px;
+            background-color: #ff00ff;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .shop-item button:hover {
+            background-color: #ff33cc;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Knapp for å gå tilbake til hovedsiden -->
     <a href="index.html" class="back-button">Tilbake til Hovedsiden</a>
 
-    <div class="glow-text">Velkommen til Amund rommet</div>
+    <div class="glow-text">Velkommen til det mystiske rommet</div>
 
-    <!-- Kodeinputfelt og verifisering -->
     <div class="code-container" id="code-container">
         <input type="text" id="code-input" class="code-input" placeholder="Skriv inn 4-sifret kode" maxlength="4">
         <button class="submit-button" id="submit-code">Bekreft Kode</button>
         <div id="error-message" class="error-message"></div>
     </div>
 
-    <!-- Skjult innhold som vises når riktig kode er skrevet -->
     <div class="hidden-content" id="amund-rommet">
         <button class="glowing-button" id="start-rain-button">
-            <img src="amundkul2.png" alt="Start Regn" style="width: 100px; height: 100px;"> <!-- Sett inn bilde -->
+            <img src="amundkul2.png" alt="Start Regn" style="width: 100px; height: 100px;">
         </button>
     </div>
 
-    <!-- Score counter -->
     <div class="score-container">
         <span>Score: <span id="score">0</span></span>
     </div>
 
+    <!-- Butikkknapp -->
+    <button class="shop-button" id="shop-button" style="display: none;">Butikk</button>
+
+    <!-- Butikkvindu -->
+    <div class="shop-window" id="shop-window">
+        <div class="shop-item">
+            <span>Dobbel Trykk - 500 poeng</span>
+            <button id="buy-double-click">Kjøp</button>
+        </div>
+        <div class="shop-item">
+            <span>Eksplosjon - 1000 poeng</span>
+            <button id="buy-explosion">Kjøp</button>
+        </div>
+        <div class="shop-item">
+            <span>Uendelig Regn - 2000 poeng</span>
+            <button id="buy-infinite-rain">Kjøp</button>
+        </div>
+    </div>
+
     <script>
-        // Den riktige koden
         const correctCode = "2009";
-        let score = 0; // Variabel for å holde styr på antall trykk
+        let score = 0;
+        let doubleClickEnabled = false;
+        let explosionEnabled = false;
+        let infiniteRainEnabled = false;
 
         // Funksjon for å validere koden
         document.getElementById("submit-code").addEventListener("click", function() {
             const enteredCode = document.getElementById("code-input").value;
 
             if (enteredCode === correctCode) {
-                // Hvis koden er riktig, vis Amund Rommet og start regnet
                 document.getElementById("amund-rommet").style.display = "block";
-                document.getElementById("error-message").style.display = "none"; // Fjern feilmeldingen hvis koden er riktig
-                document.getElementById("code-container").style.display = "none"; // Skjul kodefeltet
-
-                // Vis score-containeren
+                document.getElementById("error-message").style.display = "none";
+                document.getElementById("code-container").style.display = "none";
                 document.querySelector(".score-container").style.display = "block";
+                document.getElementById("shop-button").style.display = "block"; // Vis butikkknappen
             } else {
-                // Hvis koden er feil, vis feilmelding
                 document.getElementById("error-message").innerText = "Feil kode! Prøv igjen.";
             }
         });
 
-        // Funksjon som starter regnet med bilder
         document.getElementById("start-rain-button").addEventListener("click", function() {
-            // Lag en ny div for hvert bilde som skal falle
             createFallingImage();
-
-            // Øk scoretellingen ved hvert trykk
             score++;
-            document.getElementById("score").innerText = score; // Oppdater score på skjermen
+            document.getElementById("score").innerText = score;
+
+            if (score >= 500 && !doubleClickEnabled) {
+                document.getElementById("shop-button").style.display = "block"; // Vis butikk
+            }
         });
 
-        // Funksjon for å lage et fallende bilde
         function createFallingImage() {
             const image = document.createElement("img");
-            image.src = "amundkul2.png"; // Sett inn stien til bildet ditt
+            image.src = "amundkul2.png";
             image.classList.add("falling-image");
+            image.style.left = `${Math.random() * 100}vw`;
 
-            // Sett tilfeldig horisontal posisjon for bildet
-            image.style.left = `${Math.random() * 100}vw`; // Plasserer bildet tilfeldig på skjermen
+            if (doubleClickEnabled) {
+                score++; // Dobbelt så mange poeng per trykk
+            }
 
-            // Legg til bildet på kroppen
             document.body.appendChild(image);
 
-            // Etter at animasjonen er ferdig, fjern bildet
             setTimeout(() => {
                 image.remove();
-            }, 5000); // Bilde fjernes etter 5 sekunder (juster etter behov)
+            }, 5000);
         }
+
+        // Funksjon for å åpne butikken
+        document.getElementById("shop-button").addEventListener("click", function() {
+            document.getElementById("shop-window").style.display = "block"; // Åpne butikkvinduet
+        });
+
+        // Funksjoner for å kjøpe produkter
+        document.getElementById("buy-double-click").addEventListener("click", function() {
+            if (score >= 500) {
+                doubleClickEnabled = true;
+                score -= 500;
+                document.getElementById("score").innerText = score;
+                alert("Du har kjøpt Dobbel Trykk!");
+                document.getElementById("shop-window").style.display = "none";
+            } else {
+                alert("Du har ikke nok poeng til å kjøpe dette produktet.");
+            }
+        });
+
+        document.getElementById("buy-explosion").addEventListener("click", function() {
+            if (score >= 1000) {
+                explosionEnabled = true;
+                score -= 1000;
+                document.getElementById("score").innerText = score;
+                alert("Du har kjøpt Eksplosjon!");
+                document.getElementById("shop-window").style.display = "none";
+            } else {
+                alert("Du har ikke nok poeng til å kjøpe dette produktet.");
+            }
+        });
+
+        document.getElementById("buy-infinite-rain").addEventListener("click", function() {
+            if (score >= 2000) {
+                infiniteRainEnabled = true;
+                score -= 2000;
+                document.getElementById("score").innerText = score;
+                alert("Du har kjøpt Uendelig Regn!");
+                document.getElementById("shop-window").style.display = "none";
+            } else {
+                alert("Du har ikke nok poeng til å kjøpe dette produktet.");
+            }
+        });
     </script>
 
 </body>
 </html>
+
 
