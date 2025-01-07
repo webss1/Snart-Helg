@@ -5,6 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prøv å løs koden</title>
     <style>
+            /* For å fade ut alt på skjermen */
+        body.fade-out * {
+            animation: fadeOut 2s ease-in-out forwards;
+        }
+        
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        
+        /* Diplomstil */
+        .diploma-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #000;
+            background-color: #fff;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        /* Gullramme rundt Amund-bildet */
+        .diploma-container img {
+            border: 10px solid gold;
+            border-radius: 10px;
+            margin: 20px;
+            width: 300px; /* Juster størrelse etter behov */
+            height: 300px;
+        }
+        
+        /* Gresk skrifttype */
+        @import url('https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&display=swap');
+        
+        .diploma-container h1 {
+            font-family: 'Cardo', serif;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        /* Lysende Start på nytt knapp */
+        .start-new-btn {
+            font-size: 2rem;
+            padding: 15px 30px;
+            background-color: gold;
+            color: black;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .start-new-btn:hover {
+            box-shadow: 0 0 20px gold;
+            transform: scale(1.1);
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -407,7 +471,7 @@ document.getElementById("buy-amund").addEventListener("click", function () {
         score -= 5;
         document.getElementById("score").innerText = score;
 
-        // Når Amund er kjøpt, marker spilleren som har rundet spillet
+        // Når Amund er kjøpt, start flashbang-effekten
         triggerFlashbangEffect(); // Start flashbang-effekten
         alert("Gratulerer! Du har rundet spillet og kjøpt Amund!");
 
@@ -417,31 +481,28 @@ document.getElementById("buy-amund").addEventListener("click", function () {
     }
 });
 
-// Funksjon for å utløse flashbang-effekten
+// Funksjon for å utløse flashbang-effekten og vise diplomet
 function triggerFlashbangEffect() {
     // Skru av butikkvinduet
     document.getElementById("shop-window").style.display = "none";
 
-    // Begynn å endre skjermfargen til hvit
-    document.body.style.transition = "background-color 2s ease-in-out"; // Myk overgang
-    document.body.style.backgroundColor = "#fff"; // Gjør skjermen hvit
+    // Begynn å fade ut alt på skjermen
+    document.body.classList.add("fade-out");
 
-    // Etter animasjonen er ferdig, vis gratulasjonsmeldingen
+    // Etter at alt har forsvunnet, vis diplomet
     setTimeout(function () {
-        showCompletionMessage();
-    }, 2000); // Vent på at overgangseffekten skal være ferdig
+        showDiploma();
+    }, 2000); // Vent på at alt skal fades ut før vi viser diplomet
 }
 
-// Funksjon for å vise gratulasjonsmeldingen etter flashbang-effekten
-function showCompletionMessage() {
-    // Endre hele skjermens innhold til å vise en spesialmelding
+// Funksjon for å vise diplomet
+function showDiploma() {
+    // Erstatt alt på skjermen med diplomet
     document.body.innerHTML = `
-        <div style="text-align: center; color: #000;">
-            <h1>Gratulerer! Du har rundet spillet!</h1>
-            <p>Du har kjøpt Amund og fullført eventyret.</p>
-            <img src="amundkul2.png" alt="Amund" style="width: 200px; height: 200px;">
-            <p>Du kan nå starte på nytt, eller bare nyte prestasjonen din!</p>
-            <button onclick="location.reload();" style="font-size: 2rem; padding: 10px 20px; background-color: #ff00ff; color: black; border-radius: 10px; cursor: pointer;">Start på nytt</button>
+        <div class="diploma-container">
+            <h1>ΣΥΓΧΑΡΗΤΗΡΙΑ! ΕΧΕΤΕ ΟΛΟΚΛΗΡΩΣΕΙ ΤΟ ΠΑΙΧΝΙΔΙ!</h1>
+            <img src="amundkul2.png" alt="Amund">
+            <button class="start-new-btn" onclick="location.reload();">Start på nytt</button>
         </div>
     `;
 }
