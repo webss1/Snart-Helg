@@ -272,8 +272,8 @@
         const image = document.createElement("img");
         image.src = "amundkul2.png";// Sett inn bildet du bruker
         image.src = "amundkul.png";
-        image.src = "amund4.jpg";
-        image.src = "amundsmil2.jpg";
+        image.src = "Amund4.jpg";
+        image.src = "Amundsmil2.jpg";
         image.classList.add("falling-image");
         image.style.left = `${Math.random() * 100}vw`;
 
@@ -367,34 +367,3 @@
         }
     }
 </script>
-
-<script>
-    let correctCode = generateRandomCode(); // Start med en tilfeldig kode
-
-    // Funksjon for å generere en tilfeldig kode mellom 2000 og 2100
-    function generateRandomCode() {
-        return Math.floor(Math.random() * 101) + 2000; // Tilfeldig tall mellom 2000 og 2100
-    }
-
-    // Oppdater koden hvert minutt
-    setInterval(() => {
-        correctCode = generateRandomCode();
-        console.log("Ny kode er:", correctCode); // Skriv ut koden i konsollen (for debugging)
-    }, 60000); // 60000 ms = 1 minutt
-
-    // Funksjon for å validere koden
-    document.getElementById("submit-code").addEventListener("click", function () {
-        const enteredCode = document.getElementById("code-input").value;
-
-        if (enteredCode === correctCode.toString()) {
-            document.getElementById("amund-rommet").style.display = "block";
-            document.getElementById("error-message").style.display = "none";
-            document.getElementById("code-container").style.display = "none";
-            document.querySelector(".score-container").style.display = "block";
-            document.getElementById("shop-button").style.display = "block"; // Vis butikkknappen
-        } else {
-            document.getElementById("error-message").innerText = "Feil kode! Prøv igjen.";
-        }
-    });
-</script>
-
