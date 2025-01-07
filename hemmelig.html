@@ -237,6 +237,10 @@
             <span id="autoclicker-label">Autoklikker - 100 poeng</span>
             <button id="buy-autoclicker">Kjøp</button>
         </div>
+        <div class="shop-item">
+            <span>Amund - 5 poeng (Du har rundet spillet!)</span>
+            <button id="buy-amund">Kjøp Amund</button>
+        </div>
     </div>
 
     
@@ -397,6 +401,36 @@ document.getElementById("buy-autoclicker").addEventListener("click", function ()
     }
 });
 
+// Funksjon for å håndtere kjøp av Amund
+document.getElementById("buy-amund").addEventListener("click", function () {
+    if (score >= 5000) {
+        score -= 5000;
+        document.getElementById("score").innerText = score;
+
+        // Når Amund er kjøpt, marker spilleren som har rundet spillet
+        roundTheGame();
+        alert("Gratulerer! Du har rundet spillet og kjøpt Amund!");
+
+        document.getElementById("shop-window").style.display = "none";
+    } else {
+        alert("Du har ikke nok poeng til å kjøpe Amund.");
+    }
+});
+
+// Funksjon for å indikere at spilleren har rundet spillet
+function roundTheGame() {
+    // Endre innholdet på skjermen for å feire prestasjonen
+    document.body.innerHTML = `
+        <div style="text-align: center; color: #fff;">
+            <h1>Gratulerer! Du har rundet spillet!</h1>
+            <p>Du har kjøpt Amund og fullført eventyret.</p>
+            <img src="amundkul2.png" alt="Amund" style="width: 200px; height: 200px;">
+            <p>Du kan nå starte på nytt, eller bare nyte prestasjonen din!</p>
+            <button onclick="location.reload();" style="font-size: 2rem; padding: 10px 20px; background-color: #ff00ff; color: black; border-radius: 10px; cursor: pointer;">Start på nytt</button>
+        </div>
+    `;
+}
+
     
     document.getElementById("buy-infinite-rain").addEventListener("click", function () {
         if (score >= 2000) {
@@ -418,3 +452,4 @@ document.getElementById("buy-autoclicker").addEventListener("click", function ()
     }
 </script>
 
+    
