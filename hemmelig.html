@@ -5,258 +5,258 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prøv å løs koden</title>
     <style>
-           /* Fade-out effekten for alt på skjermen */
-              /* Fade-out effekten for alt på skjermen */
-        body.fade-out * {
-            animation: fadeOut 2s ease-in-out forwards;
+       /* Fade-out effekten for alt på skjermen */
+          /* Fade-out effekten for alt på skjermen */
+    body.fade-out * {
+        animation: fadeOut 2s ease-in-out forwards;
+    }
+    
+    /* Diplomet (skjult til fade-out er ferdig) */
+    .diploma-container {
+        display: none; /* Skjules inntil fade-out er ferdig */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #000;
+        background-color: #fff;
+        padding: 50px;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        position: relative;
+        margin-top: 50px;
+    }
+    
+    /* Gullramme rundt Amund-bildet */
+    .diploma-container img {
+        border: 10px solid gold;
+        border-radius: 10px;
+        margin: 20px;
+        width: 300px;
+        height: 300px;
+    }
+    
+    /* Gresk skrifttype */
+    @import url('https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&display=swap');
+    
+    .diploma-container h1 {
+        font-family: 'Cardo', serif;
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+    
+    /* Lysende Start på nytt knapp */
+    .start-new-btn {
+        font-size: 2rem;
+        padding: 15px 30px;
+        background-color: gold;
+        color: black;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .start-new-btn:hover {
+        box-shadow: 0 0 20px gold;
+        transform: scale(1.1);
+    }
+    
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
         }
-        
-        /* Diplomet (skjult til fade-out er ferdig) */
-        .diploma-container {
-            display: none; /* Skjules inntil fade-out er ferdig */
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #000;
-            background-color: #fff;
-            padding: 50px;
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            position: relative;
-            margin-top: 50px;
+        100% {
+            opacity: 0;
         }
-        
-        /* Gullramme rundt Amund-bildet */
-        .diploma-container img {
-            border: 10px solid gold;
-            border-radius: 10px;
-            margin: 20px;
-            width: 300px;
-            height: 300px;
-        }
-        
-        /* Gresk skrifttype */
-        @import url('https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&display=swap');
-        
-        .diploma-container h1 {
-            font-family: 'Cardo', serif;
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-        
-        /* Lysende Start på nytt knapp */
-        .start-new-btn {
-            font-size: 2rem;
-            padding: 15px 30px;
-            background-color: gold;
-            color: black;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-        }
-        
-        .start-new-btn:hover {
-            box-shadow: 0 0 20px gold;
-            transform: scale(1.1);
-        }
-        
-        @keyframes fadeOut {
-            0% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
-        }
+    }
 
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #0a0a0a;
-            font-family: 'Arial', sans-serif;
-            color: #fff;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            overflow: hidden;
-        }
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #0a0a0a;
+        font-family: 'Arial', sans-serif;
+        color: #fff;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        overflow: hidden;
+    }
 
-        .glow-text {
-            font-size: 4rem;
-            text-align: center;
-            letter-spacing: 10px;
-            color: #fff;
-            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
-        }
+    .glow-text {
+        font-size: 4rem;
+        text-align: center;
+        letter-spacing: 10px;
+        color: #fff;
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
+    }
 
-        .glowing-button {
-            display: block;
-            margin: 30px auto;
-            padding: 20px 40px;
-            font-size: 2rem;
-            color: black;
-            background-color: #fff;
-            border: none;
-            border-radius: 30px;
-            box-shadow: 0 0 10px #ff00ff;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-        }
+    .glowing-button {
+        display: block;
+        margin: 30px auto;
+        padding: 20px 40px;
+        font-size: 2rem;
+        color: black;
+        background-color: #fff;
+        border: none;
+        border-radius: 30px;
+        box-shadow: 0 0 10px #ff00ff;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
 
-        .glowing-button:hover {
-            box-shadow: 0 0 40px #ff00ff;
-            transform: scale(1.1);
-        }
+    .glowing-button:hover {
+        box-shadow: 0 0 40px #ff00ff;
+        transform: scale(1.1);
+    }
 
-        .falling-image {
-            position: absolute;
+    .falling-image {
+        position: absolute;
+        top: -100px;
+        width: 50px;
+        height: 50px;
+        animation: fall 5s linear infinite;
+    }
+
+    @keyframes fall {
+        0% {
             top: -100px;
-            width: 50px;
-            height: 50px;
-            animation: fall 5s linear infinite;
+            opacity: 1;
         }
+        100% {
+            top: 100vh;
+            opacity: 0;
+        }
+    }
 
-        @keyframes fall {
-            0% {
-                top: -100px;
-                opacity: 1;
-            }
-            100% {
-                top: 100vh;
-                opacity: 0;
-            }
-        }
+    .code-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
 
-        .code-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
+    .code-input {
+        padding: 10px;
+        font-size: 2rem;
+        margin: 10px;
+        text-align: center;
+    }
 
-        .code-input {
-            padding: 10px;
-            font-size: 2rem;
-            margin: 10px;
-            text-align: center;
-        }
+    .submit-button {
+        padding: 10px 20px;
+        font-size: 2rem;
+        background-color: #ff00ff;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-        .submit-button {
-            padding: 10px 20px;
-            font-size: 2rem;
-            background-color: #ff00ff;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    .error-message {
+        color: red;
+        font-size: 1.5rem;
+        margin-top: 10px;
+    }
 
-        .error-message {
-            color: red;
-            font-size: 1.5rem;
-            margin-top: 10px;
-        }
+    .hidden-content {
+        display: none;
+        margin-top: 20px;
+    }
 
-        .hidden-content {
-            display: none;
-            margin-top: 20px;
-        }
+    .score-container {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        font-size: 2rem;
+        color: #fff;
+        display: none;
+    }
 
-        .score-container {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            font-size: 2rem;
-            color: #fff;
-            display: none;
-        }
+    /* Knapp for å gå tilbake til hovedsiden */
+    .back-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        background-color: #fff;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        text-decoration: none;
+    }
 
-        /* Knapp for å gå tilbake til hovedsiden */
-        .back-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background-color: #fff;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .back-button:hover {
-            background-color: #fff;
-            box-shadow: 0 0 40px #fff00ff;
-            transform: scale(1.1);
-        }
+    .back-button:hover {
+        background-color: #fff;
+        box-shadow: 0 0 40px #fff00ff;
+        transform: scale(1.1);
+    }
 
 
-        /* Butikkknappen */
-        .shop-button {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background-color: #fff;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            text-decoration: none;
-        }
+    /* Butikkknappen */
+    .shop-button {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        background-color: #fff;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        text-decoration: none;
+    }
 
-        .shop-button:hover {
-            background-color: #ff33cc;
-        }
+    .shop-button:hover {
+        background-color: #ff33cc;
+    }
 
-        /* Butikkvindu */
-        .shop-window {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            display: none;
-        }
+    /* Butikkvindu */
+    .shop-window {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        display: none;
+    }
 
-        .shop-item {
-            margin: 10px 0;
-            font-size: 1.5rem;
-        }
+    .shop-item {
+        margin: 10px 0;
+        font-size: 1.5rem;
+    }
 
-        .shop-item button {
-            padding: 5px 10px;
-            background-color: #ff00ff;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    .shop-item button {
+        padding: 5px 10px;
+        background-color: #ff00ff;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-        .shop-item button:hover {
-            background-color: #ff33cc;
-        }
+    .shop-item button:hover {
+        background-color: #ff33cc;
+    }
 
-        /* Lukkeknapp for butikken */
-        .close-shop {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 2rem;
-            color: #fff;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
+    /* Lukkeknapp for butikken */
+    .close-shop {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 2rem;
+        color: #fff;
+        cursor: pointer;
+        background: none;
+        border: none;
+    }
     </style>
 </head>
 <body>
