@@ -26,7 +26,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            color: #000;
+            color: #fff;
             background-color: #fff;
             padding: 50px;
             border-radius: 20px;
@@ -493,7 +493,7 @@ function triggerFlashbangEffect() {
     // Etter at alt har forsvunnet, vis diplomet
     setTimeout(function () {
         showDiploma(); // Vis diplomet permanent
-    }, 2000); // Vent på at alt skal fades ut før vi viser diplomet
+    }, 4000); // Vent på at alt skal fades ut før vi viser diplomet
 }
 
 // Funksjon for å vise diplomet
@@ -501,7 +501,7 @@ function showDiploma() {
     // Erstatt alt på skjermen med diplomet (dette blir permanent)
     document.body.innerHTML = `
         <div class="diploma-container">
-            <h1>ΣΥΓΧΑΡΗΤΗΡΙΑ! ΕΧΕΤΕ ΟΛΟΚΛΗΡΩΣΕΙ ΤΟ ΠΑΙΧΝΙΔΙ!</h1>
+            <h1>Gratulerer du rundet Amund Clicker</h1>
             <img src="amundkul2.png" alt="Amund">
             <button class="start-new-btn" onclick="location.reload();">Start på nytt</button>
         </div>
