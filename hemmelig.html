@@ -233,8 +233,13 @@
             <span>Uendelig Regn - 2000 poeng</span>
             <button id="buy-infinite-rain">Kjøp</button>
         </div>
+            <div class="shop-item">
+            <span id="autoclicker-label">Autoklikker - 100 poeng</span>
+            <button id="buy-autoclicker">Kjøp</button>
+        </div>
     </div>
 
+    
 <script>
     let correctCode = "2009";
     let score = 0;
@@ -268,15 +273,16 @@
         }
     });
 
-    function createFallingImage() {
+ function createFallingImage() {
+    // Liste over bildene som skal falle
+    const images = ["amundkul2.png", "amundkul.png", "Amund4.jpg", "Amundsmil2.jpg"];
+    
+    images.forEach(src => {
         const image = document.createElement("img");
-        image.src = "amundkul2.png";// Sett inn bildet du bruker
-        image.src = "amundkul.png";
-        image.src = "Amund4.jpg";
-        image.src = "Amundsmil2.jpg";
+        image.src = src; // Sett kilden til bildet
         image.classList.add("falling-image");
-        image.style.left = `${Math.random() * 100}vw`;
-
+        image.style.left = `${Math.random() * 100}vw`; // Tilfeldig horisontal posisjon
+        
         if (doubleClickEnabled) {
             score++; // Dobbelt så mange poeng per trykk
         }
@@ -285,8 +291,9 @@
 
         setTimeout(() => {
             image.remove();
-        }, 5000);
-    }
+        }, 5000); // Fjern bildet etter 5 sekunder
+    });
+}
 
     // Funksjon for å åpne butikken
     document.getElementById("shop-button").addEventListener("click", function () {
@@ -348,6 +355,49 @@
         }, 2000);
     }
 
+    let autoclickerLevel = 0; // Nivå på autoklikker (antall poeng per sekund)
+let autoclickerCost = 100; // Startkostnad for autoklikker
+let autoclickerInterval; // Referanse til intervallet
+
+// Funksjon for å starte autoklikker
+function startAutoclicker() {
+    if (!autoclickerInterval) {
+        autoclickerInterval = setInterval(() => {
+            score += autoclickerLevel;
+            document.getElementById("score").innerText = score;
+        }, 1000); // Oppdater poeng hver sekund
+    }
+}
+
+// Håndter kjøp av autoklikker
+document.getElementById("buy-autoclicker").addEventListener("click", function () {
+    if (score >= autoclickerCost) {
+        score -= autoclickerCost;
+        document.getElementById("score").innerText = score;
+
+        if (autoclickerLevel === 0) {
+            // Første kjøp: Sett autoklikker i gang
+            autoclickerLevel = 1; // Startnivå for autoklikker
+            startAutoclicker(); // Start autoklikker-funksjonen
+            alert("Du har kjøpt en Autoklikker!");
+        } else {
+            // Oppgradering
+            autoclickerLevel += 1; // Øk nivået
+            alert(`Du har oppgradert Autoklikkeren til nivå ${autoclickerLevel}!`);
+        }
+
+        // Øk kostnad for neste oppgradering
+        autoclickerCost += 100;
+
+        // Oppdater knappeteksten
+        document.getElementById("autoclicker-label").innerText = `Autoklikker (Nivå ${autoclickerLevel}) - ${autoclickerCost} poeng`;
+        document.getElementById("buy-autoclicker").innerText = "Upgrade";
+    } else {
+        alert("Du har ikke nok poeng til å kjøpe dette.");
+    }
+});
+
+    
     document.getElementById("buy-infinite-rain").addEventListener("click", function () {
         if (score >= 2000) {
             infiniteRainEnabled = true;
@@ -367,3 +417,4 @@
         }
     }
 </script>
+
