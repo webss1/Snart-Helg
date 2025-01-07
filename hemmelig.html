@@ -235,104 +235,137 @@
         </div>
     </div>
 
-    <script>
-        const correctCode = "2009";
-        let score = 0;
-        let doubleClickEnabled = false;
-        let explosionEnabled = false;
-        let infiniteRainEnabled = false;
+<script>
+    let correctCode = "2009";
+    let score = 0;
+    let doubleClickEnabled = false;
+    let explosionEnabled = false;
+    let infiniteRainEnabled = false;
 
-        // Funksjon for å validere koden
-        document.getElementById("submit-code").addEventListener("click", function() {
-            const enteredCode = document.getElementById("code-input").value;
+    // Funksjon for å validere koden
+    document.getElementById("submit-code").addEventListener("click", function () {
+        const enteredCode = document.getElementById("code-input").value;
 
-            if (enteredCode === correctCode) {
-                document.getElementById("amund-rommet").style.display = "block";
-                document.getElementById("error-message").style.display = "none";
-                document.getElementById("code-container").style.display = "none";
-                document.querySelector(".score-container").style.display = "block";
-                document.getElementById("shop-button").style.display = "block"; // Vis butikkknappen
-            } else {
-                document.getElementById("error-message").innerText = "Feil kode! Prøv igjen.";
-            }
-        });
+        if (enteredCode === correctCode) {
+            document.getElementById("amund-rommet").style.display = "block";
+            document.getElementById("error-message").style.display = "none";
+            document.getElementById("code-container").style.display = "none";
+            document.querySelector(".score-container").style.display = "block";
+            document.getElementById("shop-button").style.display = "block"; // Vis butikkknappen
+        } else {
+            document.getElementById("error-message").innerText = "Feil kode! Prøv igjen.";
+        }
+    });
 
-        document.getElementById("start-rain-button").addEventListener("click", function() {
-            createFallingImage();
-            score++;
-            document.getElementById("score").innerText = score;
+    document.getElementById("start-rain-button").addEventListener("click", function () {
+        createFallingImage();
+        score++;
+        document.getElementById("score").innerText = score;
 
-            if (score >= 500 && !doubleClickEnabled) {
-                document.getElementById("shop-button").style.display = "block"; // Vis butikk
-            }
-        });
+        if (score >= 500 && !doubleClickEnabled) {
+            document.getElementById("shop-button").style.display = "block"; // Vis butikk
+        }
+    });
 
-        function createFallingImage() {
-            const image = document.createElement("img");
-            image.src = "amundkul2.png";
-            image.classList.add("falling-image");
-            image.style.left = `${Math.random() * 100}vw`;
+    function createFallingImage() {
+        const image = document.createElement("img");
+        image.src = "amundkul.png";
+        image.classList.add("falling-image");
+        image.style.left = `${Math.random() * 100}vw`;
 
-            if (doubleClickEnabled) {
-                score++; // Dobbelt så mange poeng per trykk
-            }
-
-            document.body.appendChild(image);
-
-            setTimeout(() => {
-                image.remove();
-            }, 5000);
+        if (doubleClickEnabled) {
+            score++; // Dobbelt så mange poeng per trykk
         }
 
-        // Funksjon for å åpne butikken
-        document.getElementById("shop-button").addEventListener("click", function() {
-            document.getElementById("shop-window").style.display = "block"; // Åpne butikkvinduet
-        });
+        document.body.appendChild(image);
 
-        // Funksjon for å lukke butikken
-        document.getElementById("close-shop").addEventListener("click", function() {
-            document.getElementById("shop-window").style.display = "none"; // Lukk butikkvinduet
-        });
+        setTimeout(() => {
+            image.remove();
+        }, 5000);
+    }
 
-        // Funksjoner for å kjøpe produkter
-        document.getElementById("buy-double-click").addEventListener("click", function() {
-            if (score >= 500) {
-                doubleClickEnabled = true;
-                score -= 500;
-                document.getElementById("score").innerText = score;
-                alert("Du har kjøpt Dobbel Trykk!");
-                document.getElementById("shop-window").style.display = "none";
-            } else {
-                alert("Du har ikke nok poeng til å kjøpe dette produktet.");
-            }
-        });
+    // Funksjon for å åpne butikken
+    document.getElementById("shop-button").addEventListener("click", function () {
+        document.getElementById("shop-window").style.display = "block"; // Åpne butikkvinduet
+    });
 
-        document.getElementById("buy-explosion").addEventListener("click", function() {
-            if (score >= 1000) {
-                explosionEnabled = true;
-                score -= 1000;
-                document.getElementById("score").innerText = score;
-                alert("Du har kjøpt Eksplosjon!");
-                document.getElementById("shop-window").style.display = "none";
-            } else {
-                alert("Du har ikke nok poeng til å kjøpe dette produktet.");
-            }
-        });
+    // Funksjon for å lukke butikken
+    document.getElementById("close-shop").addEventListener("click", function () {
+        document.getElementById("shop-window").style.display = "none"; // Lukk butikkvinduet
+    });
 
-        document.getElementById("buy-infinite-rain").addEventListener("click", function() {
-            if (score >= 2000) {
-                infiniteRainEnabled = true;
-                score -= 2000;
-                document.getElementById("score").innerText = score;
-                alert("Du har kjøpt Uendelig Regn!");
-                document.getElementById("shop-window").style.display = "none";
-            } else {
-                alert("Du har ikke nok poeng til å kjøpe dette produktet.");
-            }
-        });
-    </script>
+    // Funksjoner for å kjøpe produkter
+    document.getElementById("buy-double-click").addEventListener("click", function () {
+        if (score >= 500) {
+            doubleClickEnabled = true;
+            score -= 500;
+            document.getElementById("score").innerText = score;
+            alert("Du har kjøpt Dobbel Trykk!");
+            document.getElementById("shop-window").style.display = "none";
+        } else {
+            alert("Du har ikke nok poeng til å kjøpe dette produktet.");
+        }
+    });
 
-</body>
-</html>
+    document.getElementById("buy-explosion").addEventListener("click", function () {
+        if (score >= 1000) {
+            explosionEnabled = true;
+            score -= 1000;
+            document.getElementById("score").innerText = score;
+            triggerExplosion(); // Start eksplosjon
+            alert("Du har kjøpt Eksplosjon!");
+            document.getElementById("shop-window").style.display = "none";
+        } else {
+            alert("Du har ikke nok poeng til å kjøpe dette produktet.");
+        }
+    });
+
+    function triggerExplosion() {
+        const explosion = document.createElement("div");
+        explosion.style.position = "fixed";
+        explosion.style.top = "0";
+        explosion.style.left = "0";
+        explosion.style.width = "100%";
+        explosion.style.height = "100%";
+        explosion.style.backgroundColor = "rgba(255, 69, 0, 0.8)";
+        explosion.style.zIndex = "1000";
+        explosion.style.display = "flex";
+        explosion.style.justifyContent = "center";
+        explosion.style.alignItems = "center";
+        explosion.style.fontSize = "5rem";
+        explosion.style.color = "#fff";
+        explosion.style.animation = "fadeOut 2s forwards";
+        explosion.innerHTML = "💥 BOOM!";
+        document.body.appendChild(explosion);
+
+        setTimeout(() => {
+            explosion.remove();
+        }, 2000); // Fjern eksplosjonen etter 2 sekunder
+    }
+
+    @keyframes fadeOut {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+
+    document.getElementById("buy-infinite-rain").addEventListener("click", function () {
+        if (score >= 2000) {
+            infiniteRainEnabled = true;
+            score -= 2000;
+            document.getElementById("score").innerText = score;
+            startInfiniteRain(); // Start uendelig regn
+            alert("Du har kjøpt Uendelig Regn!");
+            document.getElementById("shop-window").style.display = "none";
+        } else {
+            alert("Du har ikke nok poeng til å kjøpe dette produktet.");
+        }
+    });
+
+    function startInfiniteRain() {
+        if (infiniteRainEnabled) {
+            setInterval(createFallingImage, 500); // Lag et nytt bilde hver 500ms
+        }
+    }
+</script>
 
 
