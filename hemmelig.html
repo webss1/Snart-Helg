@@ -408,7 +408,7 @@ document.getElementById("buy-amund").addEventListener("click", function () {
         document.getElementById("score").innerText = score;
 
         // Når Amund er kjøpt, marker spilleren som har rundet spillet
-        roundTheGame();
+        triggerFlashbangEffect(); // Start flashbang-effekten
         alert("Gratulerer! Du har rundet spillet og kjøpt Amund!");
 
         document.getElementById("shop-window").style.display = "none";
@@ -417,11 +417,26 @@ document.getElementById("buy-amund").addEventListener("click", function () {
     }
 });
 
-// Funksjon for å indikere at spilleren har rundet spillet
-function roundTheGame() {
-    // Endre innholdet på skjermen for å feire prestasjonen
+// Funksjon for å utløse flashbang-effekten
+function triggerFlashbangEffect() {
+    // Skru av butikkvinduet
+    document.getElementById("shop-window").style.display = "none";
+
+    // Begynn å endre skjermfargen til hvit
+    document.body.style.transition = "background-color 2s ease-in-out"; // Myk overgang
+    document.body.style.backgroundColor = "#fff"; // Gjør skjermen hvit
+
+    // Etter animasjonen er ferdig, vis gratulasjonsmeldingen
+    setTimeout(function () {
+        showCompletionMessage();
+    }, 2000); // Vent på at overgangseffekten skal være ferdig
+}
+
+// Funksjon for å vise gratulasjonsmeldingen etter flashbang-effekten
+function showCompletionMessage() {
+    // Endre hele skjermens innhold til å vise en spesialmelding
     document.body.innerHTML = `
-        <div style="text-align: center; color: #fff;">
+        <div style="text-align: center; color: #000;">
             <h1>Gratulerer! Du har rundet spillet!</h1>
             <p>Du har kjøpt Amund og fullført eventyret.</p>
             <img src="amundkul2.png" alt="Amund" style="width: 200px; height: 200px;">
@@ -430,6 +445,7 @@ function roundTheGame() {
         </div>
     `;
 }
+
 
     
     document.getElementById("buy-infinite-rain").addEventListener("click", function () {
