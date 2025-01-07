@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prøv å løs koden</title>
     <style>
-            /* For å fade ut alt på skjermen */
+        /* For å fade ut alt på skjermen */
         body.fade-out * {
-            animation: fadeOut 2s ease-in-out forwards;
+            animation: fadeOut 4s ease-in-out forwards;
         }
         
         @keyframes fadeOut {
@@ -32,6 +32,7 @@
             border-radius: 20px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             position: relative;
+            margin-top: 50px; /* Litt ekstra avstand hvis nødvendig */
         }
         
         /* Gullramme rundt Amund-bildet */
@@ -491,13 +492,13 @@ function triggerFlashbangEffect() {
 
     // Etter at alt har forsvunnet, vis diplomet
     setTimeout(function () {
-        showDiploma();
+        showDiploma(); // Vis diplomet permanent
     }, 2000); // Vent på at alt skal fades ut før vi viser diplomet
 }
 
 // Funksjon for å vise diplomet
 function showDiploma() {
-    // Erstatt alt på skjermen med diplomet
+    // Erstatt alt på skjermen med diplomet (dette blir permanent)
     document.body.innerHTML = `
         <div class="diploma-container">
             <h1>ΣΥΓΧΑΡΗΤΗΡΙΑ! ΕΧΕΤΕ ΟΛΟΚΛΗΡΩΣΕΙ ΤΟ ΠΑΙΧΝΙΔΙ!</h1>
@@ -506,6 +507,7 @@ function showDiploma() {
         </div>
     `;
 }
+
 
 
     
