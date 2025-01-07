@@ -6,13 +6,14 @@
     <title>Prøv å løs koden</title>
     <style>
            /* Fade-out effekten for alt på skjermen */
+              /* Fade-out effekten for alt på skjermen */
         body.fade-out * {
             animation: fadeOut 2s ease-in-out forwards;
         }
         
-        /* Diplomvisning */
+        /* Diplomet (skjult til fade-out er ferdig) */
         .diploma-container {
-            display: none; /* Diplom skjules til fade-out er ferdig */
+            display: none; /* Skjules inntil fade-out er ferdig */
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -59,6 +60,15 @@
         .start-new-btn:hover {
             box-shadow: 0 0 20px gold;
             transform: scale(1.1);
+        }
+        
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
         }
 
         body {
