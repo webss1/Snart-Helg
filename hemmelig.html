@@ -270,7 +270,10 @@
 
     function createFallingImage() {
         const image = document.createElement("img");
-        image.src = "amundkul.png"; // Sett inn bildet du bruker
+        image.src = "amundkul2.png";// Sett inn bildet du bruker
+        image.src = "amundkul.png";
+        image.src = "amund4.jpg";
+        image.src = "amundsmil2.jpg";
         image.classList.add("falling-image");
         image.style.left = `${Math.random() * 100}vw`;
 
@@ -297,9 +300,9 @@
 
     // Butikk: Dobbel Trykk
     document.getElementById("buy-double-click").addEventListener("click", function () {
-        if (score >= 1) {
+        if (score >= 500) {
             doubleClickEnabled = true;
-            score -= 1;
+            score -= 500;
             document.getElementById("score").innerText = score;
             alert("Du har kjøpt Dobbel Trykk!");
             document.getElementById("shop-window").style.display = "none";
@@ -310,9 +313,9 @@
 
     // Butikk: Eksplosjon
     document.getElementById("buy-explosion").addEventListener("click", function () {
-        if (score >= 1) {
+        if (score >= 1000) {
             explosionEnabled = true;
-            score -= 1;
+            score -= 1000;
             document.getElementById("score").innerText = score;
             triggerExplosion();
             alert("Du har kjøpt Eksplosjon!");
@@ -346,9 +349,9 @@
     }
 
     document.getElementById("buy-infinite-rain").addEventListener("click", function () {
-        if (score >= 2) {
+        if (score >= 2000) {
             infiniteRainEnabled = true;
-            score -= 2;
+            score -= 2000;
             document.getElementById("score").innerText = score;
             startInfiniteRain();
             alert("Du har kjøpt Uendelig Regn!");
@@ -360,7 +363,7 @@
 
     function startInfiniteRain() {
         if (infiniteRainEnabled) {
-            setInterval(createFallingImage, 500); // Lag et nytt bilde hver 500ms
+            setInterval(createFallingImage, 2000); // Lag et nytt bilde hver 500ms
         }
     }
 </script>
