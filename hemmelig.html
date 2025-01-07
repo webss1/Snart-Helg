@@ -5,34 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prøv å løs koden</title>
     <style>
-        /* For å fade ut alt på skjermen */
+                /* For å fade ut alt på skjermen */
+               /* For å fade ut alt på skjermen */
         body.fade-out * {
             animation: fadeOut 4s ease-in-out forwards;
         }
         
-        @keyframes fadeOut {
-            0% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
-        }
-        
-        /* Diplomstil */
+        /* Diplomvisning */
         .diploma-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            color: #fff;
+            color: #000;
             background-color: #fff;
             padding: 50px;
             border-radius: 20px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             position: relative;
-            margin-top: 50px; /* Litt ekstra avstand hvis nødvendig */
+            margin-top: 50px;
         }
         
         /* Gullramme rundt Amund-bildet */
@@ -40,7 +32,7 @@
             border: 10px solid gold;
             border-radius: 10px;
             margin: 20px;
-            width: 300px; /* Juster størrelse etter behov */
+            width: 300px;
             height: 300px;
         }
         
@@ -493,15 +485,18 @@ function triggerFlashbangEffect() {
     // Etter at alt har forsvunnet, vis diplomet
     setTimeout(function () {
         showDiploma(); // Vis diplomet permanent
-    }, 4000); // Vent på at alt skal fades ut før vi viser diplomet
+    }, 2000); // Vent på at alt skal fades ut før vi viser diplomet
 }
 
 // Funksjon for å vise diplomet
 function showDiploma() {
+    // Skru av fade-out effekten på body
+    document.body.classList.remove("fade-out");
+
     // Erstatt alt på skjermen med diplomet (dette blir permanent)
     document.body.innerHTML = `
         <div class="diploma-container">
-            <h1>Gratulerer du rundet Amund Clicker</h1>
+            <h1>Gratulerer du rundet Amund Clicker! </h1>
             <img src="amundkul2.png" alt="Amund">
             <button class="start-new-btn" onclick="location.reload();">Start på nytt</button>
         </div>
