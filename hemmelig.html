@@ -222,15 +222,15 @@
     <div class="shop-window" id="shop-window">
         <button class="close-shop" id="close-shop">×</button> <!-- Lukkeknapp -->
         <div class="shop-item">
-            <span>Dobbel Trykk - 500 poeng</span>
+            <span>Dobbel Trykk - 1 poeng</span>
             <button id="buy-double-click">Kjøp</button>
         </div>
         <div class="shop-item">
-            <span>Eksplosjon - 1000 poeng</span>
+            <span>Eksplosjon - 1 poeng</span>
             <button id="buy-explosion">Kjøp</button>
         </div>
         <div class="shop-item">
-            <span>Uendelig Regn - 2000 poeng</span>
+            <span>Uendelig Regn - 2 poeng</span>
             <button id="buy-infinite-rain">Kjøp</button>
         </div>
     </div>
@@ -296,9 +296,9 @@
 
     // Funksjoner for å kjøpe produkter
     document.getElementById("buy-double-click").addEventListener("click", function () {
-        if (score >= 500) {
+        if (score >= 1) {
             doubleClickEnabled = true;
-            score -= 500;
+            score -= 1;
             document.getElementById("score").innerText = score;
             alert("Du har kjøpt Dobbel Trykk!");
             document.getElementById("shop-window").style.display = "none";
@@ -308,9 +308,9 @@
     });
 
     document.getElementById("buy-explosion").addEventListener("click", function () {
-        if (score >= 1000) {
+        if (score >= 1) {
             explosionEnabled = true;
-            score -= 1000;
+            score -= 1;
             document.getElementById("score").innerText = score;
             triggerExplosion(); // Start eksplosjon
             alert("Du har kjøpt Eksplosjon!");
@@ -349,9 +349,9 @@
     }
 
     document.getElementById("buy-infinite-rain").addEventListener("click", function () {
-        if (score >= 2000) {
+        if (score >= 2) {
             infiniteRainEnabled = true;
-            score -= 2000;
+            score -= 2;
             document.getElementById("score").innerText = score;
             startInfiniteRain(); // Start uendelig regn
             alert("Du har kjøpt Uendelig Regn!");
