@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prøv å løs koden</title>
     <style>
-               /* Fade-out effekten for alt på skjermen */
+           /* Fade-out effekten for alt på skjermen */
         body.fade-out * {
             animation: fadeOut 2s ease-in-out forwards;
         }
@@ -60,7 +60,6 @@
             box-shadow: 0 0 20px gold;
             transform: scale(1.1);
         }
-
 
         body {
             margin: 0;
@@ -493,16 +492,19 @@ function showDiploma() {
     // Skru av fade-out effekten på body
     document.body.classList.remove("fade-out");
 
-    // Skjuler alt på skjermen og viser diplomet
-    document.body.innerHTML = `
+    // Lag et diplom-element
+    const diplomaHTML = `
         <div class="diploma-container">
-            <h1>Gratulerer du rundet Amund Clicker!</h1>
+            <h1>ΣΥΓΧΑΡΗΤΗΡΙΑ! ΕΧΕΤΕ ΟΛΟΚΛΗΡΩΣΕΙ ΤΟ ΠΑΙΧΝΙΔΙ!</h1>
             <img src="amundkul2.png" alt="Amund">
             <button class="start-new-btn" onclick="location.reload();">Start på nytt</button>
         </div>
     `;
+
+    // Sett diplomet inn på skjermen
+    document.body.innerHTML = diplomaHTML;
 }
-    
+
     document.getElementById("buy-infinite-rain").addEventListener("click", function () {
         if (score >= 2000) {
             infiniteRainEnabled = true;
