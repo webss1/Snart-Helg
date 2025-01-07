@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prøv å løs koden</title>
     <style>
-                /* For å fade ut alt på skjermen */
-               /* For å fade ut alt på skjermen */
+               /* Fade-out effekten for alt på skjermen */
         body.fade-out * {
-            animation: fadeOut 4s ease-in-out forwards;
+            animation: fadeOut 2s ease-in-out forwards;
         }
         
         /* Diplomvisning */
         .diploma-container {
-            display: flex;
+            display: none; /* Diplom skjules til fade-out er ferdig */
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -61,6 +60,7 @@
             box-shadow: 0 0 20px gold;
             transform: scale(1.1);
         }
+
 
         body {
             margin: 0;
@@ -493,18 +493,15 @@ function showDiploma() {
     // Skru av fade-out effekten på body
     document.body.classList.remove("fade-out");
 
-    // Erstatt alt på skjermen med diplomet (dette blir permanent)
+    // Skjuler alt på skjermen og viser diplomet
     document.body.innerHTML = `
         <div class="diploma-container">
-            <h1>Gratulerer du rundet Amund Clicker! </h1>
+            <h1>Gratulerer du rundet Amund Clicker!</h1>
             <img src="amundkul2.png" alt="Amund">
             <button class="start-new-btn" onclick="location.reload();">Start på nytt</button>
         </div>
     `;
 }
-
-
-
     
     document.getElementById("buy-infinite-rain").addEventListener("click", function () {
         if (score >= 2000) {
