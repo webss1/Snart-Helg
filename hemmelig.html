@@ -238,7 +238,7 @@
             <button id="buy-autoclicker">Kjøp</button>
         </div>
         <div class="shop-item">
-            <span>Amund - 5 poeng (Du har rundet spillet!)</span>
+            <span>Amund - 10000 poeng</span>
             <button id="buy-amund">Kjøp Amund</button>
         </div>
     </div>
@@ -403,8 +403,8 @@ document.getElementById("buy-autoclicker").addEventListener("click", function ()
 
 // Funksjon for å håndtere kjøp av Amund
 document.getElementById("buy-amund").addEventListener("click", function () {
-    if (score >= 5000) {
-        score -= 5000;
+    if (score >= 5) {
+        score -= 5;
         document.getElementById("score").innerText = score;
 
         // Når Amund er kjøpt, marker spilleren som har rundet spillet
