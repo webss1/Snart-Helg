@@ -90,7 +90,7 @@
 
             // Sjekker om det er mandag
             if (day !== 1) {
-                document.getElementById("message").innerText = "Det er enda ikke mandag";
+                document.getElementById("message").innerText = "Det er enda ikke fredag";
                 return;
             }
 
@@ -101,10 +101,10 @@
             end.setHours(13, 40, 0); // 15:20
 
             // Sjekker om det er før tirsdag kl. 00:00
-            const tuesdayStart = new Date();
-            tuesdayStart.setHours(0, 0, 0); // Tirsdag kl. 00:00
+            const fridayStart = new Date();
+            fridayStart.setHours(0, 0, 0); // Tirsdag kl. 00:00
 
-            if (now < tuesdayStart) {
+            if (now < fridayStart) {
                 document.getElementById("message").innerText = "Fredag har enda ikke startet!";
                 return;
             }
